@@ -1,0 +1,156 @@
+{
+ "name": "Feature Flag",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "autoname": "field:flag_name",
+ "title_field": "flag_label",
+ "search_fields": "flag_name,flag_label,description",
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_flag",
+   "fieldtype": "Section Break",
+   "label": "Feature Flag"
+  },
+  {
+   "fieldname": "flag_name",
+   "fieldtype": "Data",
+   "label": "Flag Name",
+   "reqd": 1,
+   "unique": 1,
+   "bold": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "flag_label",
+   "fieldtype": "Data",
+   "label": "Display Label",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_flag",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": 0,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "Core\nFeature\nIntegration\nBeta\nEnterprise",
+   "default": "Feature",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "section_scope",
+   "fieldtype": "Section Break",
+   "label": "Scope",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "scope",
+   "fieldtype": "Select",
+   "label": "Scope",
+   "options": "Global\nPer Agency",
+   "default": "Global",
+   "description": "Global: applies to all agencies. Per Agency: can be toggled per agency."
+  },
+  {
+   "fieldname": "column_scope",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enabled_agencies_count",
+   "fieldtype": "Int",
+   "label": "Enabled Agencies",
+   "read_only": 1,
+   "description": "Number of agencies with this flag enabled"
+  },
+  {
+   "fieldname": "section_rules",
+   "fieldtype": "Section Break",
+   "label": "Activation Rules",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "min_plan_type",
+   "fieldtype": "Select",
+   "label": "Minimum Plan",
+   "options": "\nStarter\nProfessional\nEnterprise",
+   "description": "Minimum subscription plan required"
+  },
+  {
+   "fieldname": "rollout_percentage",
+   "fieldtype": "Percent",
+   "label": "Rollout Percentage",
+   "default": 100,
+   "description": "Percentage of agencies this flag is enabled for"
+  },
+  {
+   "fieldname": "section_meta",
+   "fieldtype": "Section Break",
+   "label": "Metadata",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "flag_type",
+   "fieldtype": "Select",
+   "label": "Flag Type",
+   "options": "Boolean\nPercentage\nString\nJSON",
+   "default": "Boolean",
+   "description": "Type of value this flag holds"
+  },
+  {
+   "fieldname": "flag_value",
+   "fieldtype": "Small Text",
+   "label": "Flag Value",
+   "description": "Value for percentage/string/JSON flags"
+  },
+  {
+   "fieldname": "last_toggled_by",
+   "fieldtype": "Link",
+   "label": "Last Toggled By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_toggled_on",
+   "fieldtype": "Datetime",
+   "label": "Last Toggled On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

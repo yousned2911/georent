@@ -1,0 +1,153 @@
+{
+ "name": "System Health Settings",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "issingle": 1,
+ "istable": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_monitoring",
+   "fieldtype": "Section Break",
+   "label": "Health Monitoring"
+  },
+  {
+   "fieldname": "health_check_enabled",
+   "fieldtype": "Check",
+   "label": "Enable Health Checks",
+   "default": 1
+  },
+  {
+   "fieldname": "check_interval_minutes",
+   "fieldtype": "Int",
+   "label": "Check Interval (Minutes)",
+   "default": 5,
+   "description": "How often to run health checks"
+  },
+  {
+   "fieldname": "column_monitoring",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "alert_on_failure",
+   "fieldtype": "Check",
+   "label": "Alert on Failure",
+   "default": 1
+  },
+  {
+   "fieldname": "alert_email",
+   "fieldtype": "Data",
+   "label": "Alert Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "section_thresholds",
+   "fieldtype": "Section Break",
+   "label": "Thresholds",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "cpu_threshold_percent",
+   "fieldtype": "Percent",
+   "label": "CPU Threshold",
+   "default": 80
+  },
+  {
+   "fieldname": "memory_threshold_percent",
+   "fieldtype": "Percent",
+   "label": "Memory Threshold",
+   "default": 85
+  },
+  {
+   "fieldname": "disk_threshold_percent",
+   "fieldtype": "Percent",
+   "label": "Disk Threshold",
+   "default": 90
+  },
+  {
+   "fieldname": "column_thresholds",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "queue_threshold",
+   "fieldtype": "Int",
+   "label": "Queue Depth Threshold",
+   "default": 100
+  },
+  {
+   "fieldname": "failed_jobs_threshold",
+   "fieldtype": "Int",
+   "label": "Failed Jobs Threshold",
+   "default": 10
+  },
+  {
+   "fieldname": "api_response_time_ms",
+   "fieldtype": "Int",
+   "label": "API Response Time Threshold (ms)",
+   "default": 2000
+  },
+  {
+   "fieldname": "section_history",
+   "fieldtype": "Section Break",
+   "label": "Last Health Check",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "last_check_timestamp",
+   "fieldtype": "Datetime",
+   "label": "Last Check",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_overall_status",
+   "fieldtype": "Select",
+   "label": "Last Status",
+   "options": "Healthy\nDegraded\nCritical",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_history",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_api_status",
+   "fieldtype": "Select",
+   "label": "API",
+   "options": "OK\nDegraded\nDown",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_db_status",
+   "fieldtype": "Select",
+   "label": "Database",
+   "options": "OK\nDegraded\nDown",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_redis_status",
+   "fieldtype": "Select",
+   "label": "Redis",
+   "options": "OK\nDegraded\nDown",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_queue_status",
+   "fieldtype": "Select",
+   "label": "Queue",
+   "options": "OK\nDegraded\nDown",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

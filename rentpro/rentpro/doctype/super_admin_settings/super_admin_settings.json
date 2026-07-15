@@ -1,0 +1,123 @@
+{
+ "name": "Super Admin Settings",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "issingle": 1,
+ "istable": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_general",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "super_admin_enabled",
+   "fieldtype": "Check",
+   "label": "Enable Super Admin",
+   "default": 1
+  },
+  {
+   "fieldname": "platform_name",
+   "fieldtype": "Data",
+   "label": "Platform Name",
+   "default": "Rent Pro"
+  },
+  {
+   "fieldname": "column_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "allow_impersonation",
+   "fieldtype": "Check",
+   "label": "Allow Impersonation",
+   "default": 1,
+   "description": "Allow super admins to impersonate agency users"
+  },
+  {
+   "fieldname": "impersonation_requires_reason",
+   "fieldtype": "Check",
+   "label": "Require Reason for Impersonation",
+   "default": 1
+  },
+  {
+   "fieldname": "section_audit",
+   "fieldtype": "Section Break",
+   "label": "Audit"
+  },
+  {
+   "fieldname": "audit_all_actions",
+   "fieldtype": "Check",
+   "label": "Audit All Actions",
+   "default": 1,
+   "description": "Log all super admin actions to audit trail"
+  },
+  {
+   "fieldname": "audit_retention_days",
+   "fieldtype": "Int",
+   "label": "Audit Log Retention (Days)",
+   "default": 365
+  },
+  {
+   "fieldname": "column_audit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "log_api_access",
+   "fieldtype": "Check",
+   "label": "Log API Access",
+   "default": 0
+  },
+  {
+   "fieldname": "log_data_exports",
+   "fieldtype": "Check",
+   "label": "Log Data Exports",
+   "default": 1
+  },
+  {
+   "fieldname": "section_support",
+   "fieldtype": "Section Break",
+   "label": "Support"
+  },
+  {
+   "fieldname": "max_trial_extension_days",
+   "fieldtype": "Int",
+   "label": "Max Trial Extension (Days)",
+   "default": 30
+  },
+  {
+   "fieldname": "allow_subscription_reset",
+   "fieldtype": "Check",
+   "label": "Allow Subscription Reset",
+   "default": 1
+  },
+  {
+   "fieldname": "column_support",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "max_extensions_per_agency",
+   "fieldtype": "Int",
+   "label": "Max Extensions per Agency",
+   "default": 3
+  },
+  {
+   "fieldname": "require_notes_for_suspend",
+   "fieldtype": "Check",
+   "label": "Require Notes for Suspension",
+   "default": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
