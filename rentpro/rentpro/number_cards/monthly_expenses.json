@@ -1,0 +1,14 @@
+{
+ "name": "Monthly Expenses",
+ "label": "Monthly Expenses",
+ "type": "Sum",
+ "doctype": "Number Card",
+ "document_type": "Expense Entry",
+ "filters": [["Expense Entry", "expense_date", ">", "This Month"]],
+ "color": "red",
+ "icon": "octicon octicon-diff-removed",
+ "module": "Rent Pro",
+ "field": "amount",
+ "filters_json": "[[\"Expense Entry\",\"expense_date\",\">\",\"This Month\"]]",
+ "function": "Sum"
+}

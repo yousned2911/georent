@@ -1,0 +1,13 @@
+{
+ "name": "Contracts Paid Today",
+ "label": "Contracts Paid Today",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Payment Transaction",
+ "filters": [["Payment Transaction", "status", "=", "Completed"], ["Payment Transaction", "transaction_date", "=", "Today"]],
+ "color": "yellow",
+ "icon": "octicon octicon-checklist",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Payment Transaction\",\"status\",\"=\",\"Completed\"],[\"Payment Transaction\",\"transaction_date\",\"=\",\"Today\"]]",
+ "function": "Count"
+}

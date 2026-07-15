@@ -1,0 +1,13 @@
+{
+ "name": "Fleet Utilization Finance",
+ "label": "Fleet Utilization %",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Vehicle",
+ "filters": [["Vehicle", "status", "=", "Rented"]],
+ "color": "blue",
+ "icon": "octicon octicon-graph",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Vehicle\",\"status\",\"=\",\"Rented\"]]",
+ "function": "Count"
+}

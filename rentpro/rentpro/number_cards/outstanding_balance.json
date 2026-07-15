@@ -1,0 +1,13 @@
+{
+ "name": "Outstanding Balance",
+ "label": "Outstanding Balance",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Rental Contract",
+ "filters": [["Rental Contract", "payment_status", "in", ["Unpaid", "Partial"]], ["Rental Contract", "status", "=", "Active"]],
+ "color": "orange",
+ "icon": "octicon octicon-alert",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Rental Contract\",\"payment_status\",\"in\",[\"Unpaid\",\"Partial\"]],[\"Rental Contract\",\"status\",\"=\",\"Active\"]]",
+ "function": "Count"
+}

@@ -1,0 +1,14 @@
+{
+ "name": "Monthly Revenue",
+ "label": "Monthly Revenue",
+ "type": "Sum",
+ "doctype": "Number Card",
+ "document_type": "Payment Transaction",
+ "filters": [["Payment Transaction", "status", "=", "Completed"], ["Payment Transaction", "transaction_date", ">", "This Month"]],
+ "color": "green",
+ "icon": "octicon octicon-graph",
+ "module": "Rent Pro",
+ "field": "amount",
+ "filters_json": "[[\"Payment Transaction\",\"status\",\"=\",\"Completed\"],[\"Payment Transaction\",\"transaction_date\",\">\",\"This Month\"]]",
+ "function": "Sum"
+}

@@ -1,0 +1,9 @@
+{
+ "name": "Outstanding Payments Report",
+ "module": "Rent Pro",
+ "doctype": "Report",
+ "is_standard": "Yes",
+ "report_type": "Script Report",
+ "ref_doctype": "Rental Contract",
+ "report_name": "Outstanding Payments Report"
+}
