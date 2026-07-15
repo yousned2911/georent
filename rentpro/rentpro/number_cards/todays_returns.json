@@ -1,0 +1,13 @@
+{
+ "name": "Today's Returns",
+ "label": "Today's Returns",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Reservation",
+ "filters": [["Reservation", "status", "=", "Picked Up"], ["Reservation", "expected_return_date", "=", "Today"]],
+ "color": "yellow",
+ "icon": "octicon octicon-arrow-left",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Reservation\",\"status\",\"=\",\"Picked Up\"],[\"Reservation\",\"expected_return_date\",\"=\",\"Today\"]]",
+ "function": "Count"
+}

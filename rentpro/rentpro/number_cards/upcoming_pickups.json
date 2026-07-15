@@ -1,0 +1,13 @@
+{
+ "name": "Upcoming Pickups",
+ "label": "Upcoming Pickups",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Reservation",
+ "filters": [["Reservation", "status", "in", ["Confirmed"]], ["Reservation", "pickup_date", ">", "Today"]],
+ "color": "purple",
+ "icon": "octicon octicon-arrow-right",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Reservation\",\"status\",\"in\",[\"Confirmed\"]],[\"Reservation\",\"pickup_date\",\">\",\"Today\"]]",
+ "function": "Count"
+}

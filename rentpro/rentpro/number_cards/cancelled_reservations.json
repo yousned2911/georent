@@ -1,0 +1,13 @@
+{
+ "name": "Cancelled Reservations",
+ "label": "Cancelled Reservations",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Reservation",
+ "filters": [["Reservation", "status", "=", "Cancelled"]],
+ "color": "red",
+ "icon": "octicon octicon-x",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Reservation\",\"status\",\"=\",\"Cancelled\"]]",
+ "function": "Count"
+}

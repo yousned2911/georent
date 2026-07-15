@@ -1,0 +1,13 @@
+{
+ "name": "Active Reservations",
+ "label": "Active Reservations",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Reservation",
+ "filters": [["Reservation", "status", "in", ["Confirmed", "Picked Up"]]],
+ "color": "green",
+ "icon": "octicon octicon-check",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Reservation\",\"status\",\"in\",[\"Confirmed\",\"Picked Up\"]]]",
+ "function": "Count"
+}

@@ -1,0 +1,13 @@
+{
+ "name": "Total Reservations",
+ "label": "Total Reservations",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Reservation",
+ "filters": [],
+ "color": "blue",
+ "icon": "octicon octicon-calendar",
+ "module": "Rent Pro",
+ "filters_json": "[]",
+ "function": "Count"
+}
