@@ -1,299 +1,271 @@
-# Rent Pro v1.0 RC1 — Deployment Guide
+# DEPLOYMENT_GUIDE.md — Rent Pro on Frappe Cloud
 
-**Version:** 1.0 RC1  
-**Date:** 2026-07-15  
-**Platform:** Frappe/ERPNext v15
-
----
-
-## Table of Contents
-
-1. [Prerequisites](#1-prerequisites)
-2. [Installation Steps](#2-installation-steps)
-3. [Post-Installation Configuration](#3-post-installation-configuration)
-4. [Roles Reference](#4-roles-reference)
-5. [Environment Variables](#5-environment-variables)
-6. [Security Considerations](#6-security-considerations)
-7. [Monitoring](#7-monitoring)
-8. [Backup](#8-backup)
-9. [Troubleshooting](#9-troubleshooting)
-10. [Next Steps](#10-next-steps)
+**Version:** 0.1.0-rc1
+**Date:** 2026-07-15
+**Prerequisite:** ERPNext v16 bench (not Frappe-only)
 
 ---
 
-## 1. Prerequisites
+## Prerequisites
 
-Ensure the following components are installed and running before proceeding:
+| Requirement | Version | Notes |
+|-------------|---------|-------|
+| Frappe Framework | v16 | Provided by Frappe Cloud |
+| ERPNext | v16 | **Must be installed on the bench** |
+| Python | 3.10+ | Frappe Cloud default |
+| MariaDB | 10.6+ | Frappe Cloud default |
+| Redis | 6+ | Frappe Cloud default |
 
-| Component       | Minimum Version | Notes                                    |
-|-----------------|-----------------|------------------------------------------|
-| Python          | 3.10+           | Recommended: 3.11                        |
-| MariaDB         | 10.6+           | With `utf8mb4` and `utf8mb4_unicode_ci`  |
-| Node.js         | 18+             | For bench asset building                 |
-| Redis           | 6+              | Three instances: cache, queue, socketio  |
-| Frappe Bench    | 5.x+            | CLI tool for managing Frappe deployments |
-| ERPNext         | v15             | Required dependency for Rent Pro         |
+**Critical:** Rent Pro requires an ERPNext bench. A Frappe-only bench will fail with `ModuleNotFoundError: No module named 'erpnext'`.
 
-**Verify your environment:**
+---
 
-```bash
-python3 --version
-mariadb --version
-node --version
-redis-server --version
-bench --version
+## Step 1: Create an ERPNext Site on Frappe Cloud
+
+1. Log in to [frappe.cloud](https://frappe.cloud)
+2. Click **New Site**
+3. During site creation:
+   - Select **ERPNext** as the included application
+   - This ensures `installed_apps` includes `['frappe', 'erpnext']`
+4. Wait for site creation to complete
+
+**Verification:**
+```
+bench --site <site> console -c "print(frappe.get_installed_apps())"
+# Expected: ['frappe', 'erpnext']
 ```
 
 ---
 
-## 2. Installation Steps
+## Step 2: Add Rent Pro to the Bench
 
-All commands below assume you are operating as the `frappe` user within your bench directory.
-
-### 2.1 Get the App
+### Option A: From GitHub (Recommended)
 
 ```bash
-bench get-app https://github.com/your-org/rent_pro.git
+bench get-app https://github.com/yousned2911/georent.git --branch feature/rentpro-init
 ```
 
-Or from a local path:
+### Option B: From Local Directory
 
 ```bash
-bench get-app /path/to/rent_pro
-```
-
-### 2.2 Install the App
-
-```bash
-bench --site your-site.local install-app rent_pro
-```
-
-This registers all Rent Pro DocTypes, roles, and permissions with your site.
-
-### 2.3 Run Database Migrations
-
-```bash
-bench --site your-site.local migrate
-```
-
-### 2.4 Build Frontend Assets
-
-```bash
-bench build --app rent_pro
-```
-
-### 2.5 Restart Workers
-
-```bash
-bench restart
-```
-
-### 2.6 Verify Installation
-
-```bash
-bench --site your-site.local console
-```
-
-```python
-import rent_pro
-print(rent_pro.__version__)
+bench get-app /path/to/georent
 ```
 
 ---
 
-## 3. Post-Installation Configuration
+## Step 3: Install Rent Pro on the Site
 
-### 3.1 Rent Pro Settings
+```bash
+bench --site <site> install-app rentpro
+```
+
+This will:
+1. Verify `erpnext` is in `installed_apps` (required_apps check)
+2. Create 7 custom roles (Rent Pro Manager, User, Fleet Manager, etc.)
+3. Create default Rent Pro Settings
+4. Create custom field on Sales Invoice (`rental_contract`)
+5. Sync all 25 DocTypes
+6. Create the Workspace (Rent Pro module in Desk)
+
+---
+
+## Step 4: Verify Installation
+
+```bash
+# 1. Check installed apps
+bench --site <site> console -c "print(frappe.get_installed_apps())"
+# Expected: ['frappe', 'erpnext', 'rentpro']
+
+# 2. Check Module Def
+bench --site <site> console -c "print(frappe.db.exists('Module Def', 'Rent Pro'))"
+# Expected: True
+
+# 3. Check Workspace
+bench --site <site> console -c "print(frappe.db.exists('Workspace', 'Rent Pro'))"
+# Expected: True
+
+# 4. Check key DocTypes
+bench --site <site> console -c "
+for dt in ['Vehicle', 'Rental Contract', 'Reservation', 'Payment Transaction', 'Document Record']:
+    print(f'{dt}: {frappe.db.exists(\"DocType\", dt)}')
+"
+# Expected: all True
+
+# 5. Check ERPNext integration
+bench --site <site> console -c "print(frappe.db.exists('Custom Field', 'Sales Invoice_rental_contract'))"
+# Expected: True
+
+# 6. Check Sales Invoice exists (ERPNext)
+bench --site <site> console -c "print(frappe.db.exists('DocType', 'Sales Invoice'))"
+# Expected: True
+```
+
+---
+
+## Step 5: Post-Installation Configuration
+
+### 5.1 Configure Rent Pro Settings
 
 Navigate to: **Rent Pro > Rent Pro Settings**
 
-Configure the following:
+| Field | Value | Notes |
+|-------|-------|-------|
+| Agency Name | (your agency name) | Required |
+| Default Currency | MAD | Moroccan Dirham |
+| Default TVA Rate | 20% | Or applicable rate |
+| OCR Enabled | Checked | Enable document scanning |
+| GeoFleete Enabled | Checked | Enable GPS tracking |
 
-- **Default Currency:** Set to MAD (Moroccan Dirham) for local operations
-- **Company Name:** Link to your ERPNext Company record
-- **Default Tax Template:** Configure applicable Moroccan VAT rates
-- **Rental Number Prefix:** Set the prefix for auto-generated rental agreements (e.g., `RA-`)
-- **Reservation Prefix:** Set the prefix for reservations (e.g., `RV-`)
+### 5.2 Configure SaaS Settings (if multi-agency)
 
-### 3.2 Agency Setup
+Navigate to: **Rent Pro > SaaS Settings**
 
-Create your agency record under **Rent Pro > Agency**:
+| Field | Value |
+|-------|-------|
+| SaaS Enabled | Checked |
+| Auto Generate Invoices | Checked |
+| Grace Period Days | 7 |
 
-- Agency name and legal entity details
-- Address (physical location)
-- Contact information
-- Link to the ERPNext Company
-- Operating hours
+### 5.3 Configure GeoFleete Settings
 
-### 3.3 User Roles and Permissions
+Navigate to: **Rent Pro > GeoFleete Settings**
 
-Create users and assign roles-based permissions as outlined in the table below. Assign roles via **Settings > User > User Role**.
+| Field | Value |
+|-------|-------|
+| GPS Provider | Mock (for testing) |
+| Mock Mode | Checked |
+| GPS Update Interval | 30 seconds |
 
-At minimum, configure:
+### 5.4 Create Subscription Plans (if multi-agency)
 
-- **System Manager** for administrators (already exists in Frappe)
-- **Rent Pro Manager** for operations leads
-- **Rent Pro User** for front-desk staff
+Navigate to: **Rent Pro > Subscription Plan > New**
 
----
+Create at least one plan:
+- Plan Name: "Basic"
+- Plan Label: "Basic Plan"
+- Monthly Price: (price in MAD)
+- Max Vehicles: 10
+- Max Users: 5
 
-## 4. Roles Reference
+### 5.5 Assign Roles to Users
 
-Rent Pro introduces the following custom roles:
+Navigate to: **User > (select user) > Roles**
 
-| Role                    | Scope / Description                                              |
-|-------------------------|------------------------------------------------------------------|
-| **Rent Pro Manager**    | Full access to all Rent Pro modules. Manages fleet, contracts, and financial records. |
-| **Rent Pro User**       | Day-to-day operations: creates reservations, manages check-in/out, and views reports. |
-| **Fleet Manager**       | Manages vehicles, maintenance schedules, insurance, and vehicle availability. |
-| **Contract Manager**    | Creates and manages rental agreements, amends contracts, and handles extensions. |
-| **Customer Service**    | Handles reservations, customer interactions, and basic reporting. |
-| **Finance Manager**     | Manages invoicing, payments, and financial reconciliation within Rent Pro. |
-| **Workshop Manager**    | Manages maintenance tasks, parts inventory, and service records. |
-
----
-
-## 5. Environment Variables
-
-Rent Pro requires **no environment variables**. All configuration is managed through the **Rent Pro Settings** DocType within the Frappe web interface.
-
-If your Frappe/ERPNext instance already uses environment variables (e.g., `DB_HOST`, `REDIS_CACHE`), those apply as usual but are managed at the Frappe level, not Rent Pro.
+Assign appropriate Rent Pro roles:
+- **Rent Pro Manager** — Full access
+- **Rent Pro User** — Standard user
+- **Rent Pro Fleet Manager** — Vehicle/GPS management
+- **Rent Pro Finance** — Financial operations
 
 ---
 
-## 6. Security Considerations
-
-### 6.1 HTTPS
-
-- **Enable HTTPS** on your Frappe site using a reverse proxy (e.g., Nginx) with a valid TLS certificate.
-- Disable HTTP access entirely in production.
-
-### 6.2 Role-Based Access Control
-
-- Assign the **minimum required role** to each user.
-- Avoid granting **Rent Pro Manager** to non-administrative users.
-- Review role assignments periodically under **Settings > Role Profile**.
-
-### 6.3 Audit Logging
-
-- Rent Pro logs all critical actions (contract creation, amendments, payments) with timestamps and user attribution.
-- Enable Frappe's standard **Activity Log** and **Document Version** tracking.
-- Review logs under **Audit Trail** and **Activity Log** in the Frappe desk.
-
-### 6.4 Additional Recommendations
-
-- Enforce strong passwords via Frappe's **System Settings**.
-- Enable **Two-Factor Authentication (2FA)** for administrative accounts.
-- Restrict desk access for users who only need portal access.
-
----
-
-## 7. Monitoring
-
-### 7.1 System Health Check
-
-```bash
-bench doctor --site your-site.local
-```
-
-This checks database integrity, background worker status, and queued jobs.
-
-### 7.2 Background Jobs
-
-Monitor the background job queue via:
-
-```bash
-bench --site your-site.local console
-```
+## Step 6: Create Test Data
 
 ```python
-from frappe.utils.background_jobs import get_queue_list
-from frappe import get_jobs
-print(get_jobs())
-```
+# Via bench console:
+bench --site <site> console
 
-Or view via the web desk: **Settings > Background Jobs**.
+# Create a test vehicle
+vehicle = frappe.get_doc({
+    "doctype": "Vehicle",
+    "vehicle_name": "Test Vehicle",
+    "make": "Toyota",
+    "model": "Corolla",
+    "year": 2024,
+    "plate_number": "A-12345",
+    "daily_rate": 500,
+    "status": "Available"
+})
+vehicle.insert(ignore_permissions=True)
+frappe.db.commit()
 
-### 7.3 Site Health
-
-```bash
-bench --site your-site.local requests --limit 20
-```
-
-Check request logs for errors or performance issues.
-
-### 7.4 Log Files
-
-```bash
-# Frappe logs
-tail -f /home/frappe/frappe-bench/logs/web.log
-
-# Worker logs
-tail -f /home/frappe/frappe-bench/logs/worker.log
-
-# Scheduler logs
-tail -f /home/frappe/frappe-bench/logs/scheduler.log
-```
-
----
-
-## 8. Backup
-
-Rent Pro uses standard Frappe backup mechanisms. No additional backup configuration is required.
-
-### 8.1 Manual Backup
-
-```bash
-bench --site your-site.local backup --with-files
-```
-
-This creates:
-
-- A database dump (`.sql.gz`)
-- A site config backup
-- Uploaded files and private files
-
-### 8.2 Automated Backups
-
-Frappe supports scheduled backups. Configure via:
-
-- **Settings > System Settings > Backup** — set the backup interval
-- Or use cron to run `bench --site your-site.local backup --with-files` on a schedule
-
-### 8.3 Restore
-
-```bash
-bench --site your-site.local restore /path/to/backup.sql.gz --with-files
+# Create a test customer (uses ERPNext Customer DocType)
+customer = frappe.get_doc({
+    "doctype": "Customer",
+    "customer_name": "Test Customer",
+    "customer_group": "All Customer Groups",
+    "territory": "All Territories"
+})
+customer.insert(ignore_permissions=True)
+frappe.db.commit()
 ```
 
 ---
 
-## 9. Troubleshooting
+## Troubleshooting
 
-| Issue                                    | Solution                                                                 |
-|------------------------------------------|--------------------------------------------------------------------------|
-| `bench get-app` fails                    | Verify git is installed and the repository URL is correct.               |
-| `install-app` throws import errors       | Ensure ERPNext v15 is installed before Rent Pro.                         |
-| Assets not loading after `bench build`   | Run `bench clear-cache` then `bench build --app rent_pro` again.         |
-| Roles not appearing in desk              | Run `bench --site your-site.local migrate` and restart.                  |
-| DocType fields missing after update      | Run `bench --site your-site.local migrate` and `bench build --app rent_pro`. |
-| Background jobs stuck                    | Restart workers: `bench restart`. Check `bench doctor` for issues.       |
-| Permission errors on custom DocTypes     | Verify role assignments under **User > Role**. Reinstall if needed: `bench --site your-site.local reinstall`. |
+### Error: `ModuleNotFoundError: No module named 'erpnext'`
+
+**Cause:** Site does not have ERPNext installed.
+**Fix:** Create a new site with ERPNext enabled, or install ERPNext on the existing site:
+```bash
+bench get-app erpnext --branch version-16
+bench --site <site> install-app erpnext
+```
+
+### Error: `required_apps check failed`
+
+**Cause:** ERPNext is not in `installed_apps`.
+**Fix:** Verify ERPNext is installed:
+```bash
+bench --site <site> console -c "print(frappe.get_installed_apps())"
+```
+
+### Rent Pro not visible in Desk
+
+**Cause:** Workspace not created.
+**Fix:** Run migration:
+```bash
+bench --site <site> migrate
+bench build --app rentpro
+```
+
+### Sales Invoice creation fails
+
+**Cause:** ERPNext Accounts module not properly configured.
+**Fix:** Ensure ERPNext is fully set up:
+1. Create a Company
+2. Create a Cost Center
+3. Create an Income Account
+4. Configure Selling Settings
 
 ---
 
-## 10. Next Steps
+## Deployment Order
 
-After successful deployment:
+```
+1. Frappe Framework (provided by Frappe Cloud)
+   └── 2. ERPNext (must be installed first)
+       └── 3. Rent Pro (depends on ERPNext)
+```
 
-1. **Seed initial data** — Import your vehicle fleet, customer records, and insurance providers.
-2. **Configure templates** — Set up rental agreement templates and invoice templates under **Rent Pro Settings**.
-3. **Train staff** — Provide desk walkthroughs for roles: Fleet Manager, Contract Manager, and Customer Service.
-4. **Integrate payment gateways** — If applicable, configure Moroccan payment providers (e.g., CMI, M-Wallet) via ERPNext Payments.
-5. **Schedule backups** — Set up automated daily backups with off-site storage.
-6. **Monitor and iterate** — Review system logs weekly for the first month post-deployment.
-7. **Report issues** — File bugs and feature requests via the project's GitHub Issues page.
+**Never install Rent Pro before ERPNext.**
 
 ---
 
-*For questions or support, contact the development team or open an issue at the project repository.*
+## Rollback
+
+If deployment fails and you need to uninstall:
+
+```bash
+bench --site <site> uninstall-app rentpro
+bench --site <site> migrate
+```
+
+This will:
+- Remove all 7 custom roles
+- Remove the custom field on Sales Invoice
+- Remove all Rent Pro DocTypes and data
+
+---
+
+## Summary
+
+| Step | Command | Expected Result |
+|------|---------|-----------------|
+| Create ERPNext site | Frappe Cloud UI | `installed_apps = ['frappe', 'erpnext']` |
+| Get Rent Pro app | `bench get-app` | App downloaded to apps/ |
+| Install Rent Pro | `bench install-app rentpro` | 25 DocTypes synced |
+| Verify | `frappe.get_installed_apps()` | `['frappe', 'erpnext', 'rentpro']` |
+| Configure | Desk > Rent Pro Settings | Agency name, currency, TVA |
+| Assign roles | Desk > User > Roles | Rent Pro roles assigned |
