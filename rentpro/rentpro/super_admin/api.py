@@ -112,7 +112,7 @@ def get_audit_logs(
             "description",
         ],
         limit_start=int(offset),
-        limit_page_length=int(limit),
+        limit=int(limit),
         order_by="action_timestamp desc",
     )
     total = frappe.db.count("Super Admin Audit Log", filters)

@@ -45,7 +45,7 @@ def get_agency_list_data(
             "creation",
         ],
         limit_start=offset,
-        limit_page_length=limit,
+        limit=limit,
         order_by="creation desc",
     )
 

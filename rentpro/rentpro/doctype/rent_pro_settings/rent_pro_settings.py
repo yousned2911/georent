@@ -16,7 +16,7 @@ class RentProSettings(Document):
             frappe.throw(frappe._("GPS retention days must be at least 1"))
 
 
-def has_permission(doc, user=None, permission_type=None):
+def has_permission(doc, user=None, permission_type=None, **kwargs):
     if frappe.session.user == "Administrator":
         return True
     if permission_type == "read":

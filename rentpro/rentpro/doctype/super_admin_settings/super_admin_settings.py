@@ -13,7 +13,7 @@ class SuperAdminSettings(Document):
             frappe.throw(frappe._("Max extensions per agency cannot be negative."))
 
 
-def has_permission(doc, user=None, permission_type=None):
+def has_permission(doc, user=None, permission_type=None, **kwargs):
     if frappe.session.user == "Administrator":
         return True
     roles = frappe.get_roles(user)
