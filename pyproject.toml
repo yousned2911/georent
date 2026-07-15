@@ -10,10 +10,7 @@ readme = "README.md"
 license = {text = "MIT"}
 authors = [{name = "Rent Pro", email = "dev@rentpro.ma"}]
 requires-python = ">=3.10"
-dependencies = [
-    "frappe-framework>=15.0.0",
-    "erpnext>=15.0.0",
-]
+dependencies = []
 
 [project.optional-dependencies]
 dev = [
