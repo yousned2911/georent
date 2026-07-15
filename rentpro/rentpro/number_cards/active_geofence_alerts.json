@@ -1,0 +1,14 @@
+{
+ "name": "Active Geofence Alerts",
+ "label": "Active Geofence Alerts",
+ "module": "Rent Pro",
+ "type": "Count",
+ "document_type": "Geofence Alert",
+ "filters": [["Geofence Alert", "is_acknowledged", "=", 0]],
+ "filters_json": "[[\"Geofence Alert\",\"is_acknowledged\",\"=\",0]]",
+ "is_tree": 0,
+ "show_percentage": 0,
+ "show_latest_data": 1,
+ "interval": "Monthly",
+ "color": "#ef4444"
+}

@@ -1,0 +1,158 @@
+{
+ "name": "GeoFleete Settings",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "issingle": 1,
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_general",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "geofleete_enabled",
+   "fieldtype": "Check",
+   "label": "Enable GeoFleete",
+   "default": 0
+  },
+  {
+   "fieldname": "gps_provider",
+   "fieldtype": "Select",
+   "label": "GPS Provider",
+   "options": "Mock\nTraccar",
+   "default": "Mock"
+  },
+  {
+   "fieldname": "column_break_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "mock_mode",
+   "fieldtype": "Check",
+   "label": "Mock Mode",
+   "default": 1,
+   "description": "Simulate fleet data for development/demo"
+  },
+  {
+   "fieldname": "gps_update_interval",
+   "fieldtype": "Int",
+   "label": "GPS Update Interval (Seconds)",
+   "default": 30
+  },
+  {
+   "fieldname": "gps_retention_days",
+   "fieldtype": "Int",
+   "label": "GPS Data Retention (Days)",
+   "default": 90
+  },
+  {
+   "fieldname": "section_coming_soon",
+   "fieldtype": "Section Break",
+   "label": "External Integrations",
+   "depends_on": "eval:doc.gps_provider !== 'Mock'"
+  },
+  {
+   "fieldname": "coming_soon_banner",
+   "fieldtype": "HTML",
+   "label": "Coming Soon"
+  },
+  {
+   "fieldname": "section_simulation",
+   "fieldtype": "Section Break",
+   "label": "Simulation Parameters",
+   "depends_on": "eval:doc.mock_mode"
+  },
+  {
+   "fieldname": "default_latitude",
+   "fieldtype": "Float",
+   "label": "Default Latitude",
+   "default": 33.5731,
+   "description": "Casablanca city center"
+  },
+  {
+   "fieldname": "default_longitude",
+   "fieldtype": "Float",
+   "label": "Default Longitude",
+   "default": -7.5898
+  },
+  {
+   "fieldname": "column_break_simulation",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "simulation_speed_factor",
+   "fieldtype": "Float",
+   "label": "Simulation Speed Factor",
+   "default": 1.0,
+   "description": "Multiplier for simulation speed"
+  },
+  {
+   "fieldname": "max_fuel_consumption",
+   "fieldtype": "Float",
+   "label": "Max Fuel Consumption (%/km)",
+   "default": 0.08
+  },
+  {
+   "fieldname": "section_alerts",
+   "fieldtype": "Section Break",
+   "label": "Alert Thresholds"
+  },
+  {
+   "fieldname": "low_fuel_threshold",
+   "fieldtype": "Percent",
+   "label": "Low Fuel Alert Threshold",
+   "default": 15
+  },
+  {
+   "fieldname": "speed_limit",
+   "fieldtype": "Int",
+   "label": "Speed Limit (km/h)",
+   "default": 120,
+   "description": "Alert when vehicle exceeds this speed"
+  },
+  {
+   "fieldname": "column_break_alerts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "idle_threshold_minutes",
+   "fieldtype": "Int",
+   "label": "Idle Alert Threshold (Minutes)",
+   "default": 30,
+   "description": "Alert when vehicle idles longer"
+  },
+  {
+   "fieldname": "low_battery_threshold",
+   "fieldtype": "Percent",
+   "label": "Low Battery Alert Threshold",
+   "default": 20
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Rent Pro Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  },
+  {
+   "role": "Rent Pro Fleet Manager",
+   "read": 1,
+   "write": 1,
+   "create": 0
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

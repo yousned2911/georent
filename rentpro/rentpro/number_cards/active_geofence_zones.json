@@ -1,0 +1,14 @@
+{
+ "name": "Active Geofence Zones",
+ "label": "Active Geofence Zones",
+ "module": "Rent Pro",
+ "type": "Count",
+ "document_type": "Geofence Zone",
+ "filters": [["Geofence Zone", "is_active", "=", 1]],
+ "filters_json": "[[\"Geofence Zone\",\"is_active\",\"=\",1]]",
+ "is_tree": 0,
+ "show_percentage": 0,
+ "show_latest_data": 1,
+ "interval": "Monthly",
+ "color": "#8b5cf6"
+}

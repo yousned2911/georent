@@ -1,0 +1,157 @@
+{
+ "name": "Geofence Zone",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "autoname": "GZF-{####}",
+ "title_field": "zone_name",
+ "search_fields": "zone_name,zone_type",
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_zone",
+   "fieldtype": "Section Break",
+   "label": "Zone Definition"
+  },
+  {
+   "fieldname": "zone_name",
+   "fieldtype": "Data",
+   "label": "Zone Name",
+   "reqd": 1,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "zone_type",
+   "fieldtype": "Select",
+   "label": "Zone Type",
+   "options": "Depot\nCustomer Zone\nRestricted\nSpeed Limit\nAirport",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_zone",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Active",
+   "default": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_boundary",
+   "fieldtype": "Section Break",
+   "label": "Boundary"
+  },
+  {
+   "fieldname": "boundary_type",
+   "fieldtype": "Select",
+   "label": "Boundary Type",
+   "options": "Circle\nPolygon",
+   "default": "Circle",
+   "reqd": 1
+  },
+  {
+   "fieldname": "center_latitude",
+   "fieldtype": "Float",
+   "label": "Center Latitude",
+   "reqd": 1
+  },
+  {
+   "fieldname": "center_longitude",
+   "fieldtype": "Float",
+   "label": "Center Longitude",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_radius",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "radius",
+   "fieldtype": "Int",
+   "label": "Radius (meters)",
+   "default": 500,
+   "description": "For circular zones"
+  },
+  {
+   "fieldname": "speed_limit",
+   "fieldtype": "Int",
+   "label": "Speed Limit (km/h)",
+   "description": "Optional per-zone speed limit"
+  },
+  {
+   "fieldname": "section_alerts",
+   "fieldtype": "Section Break",
+   "label": "Alert Settings"
+  },
+  {
+   "fieldname": "notify_on_entry",
+   "fieldtype": "Check",
+   "label": "Alert on Entry",
+   "default": 1
+  },
+  {
+   "fieldname": "notify_on_exit",
+   "fieldtype": "Check",
+   "label": "Alert on Exit",
+   "default": 1
+  },
+  {
+   "fieldname": "column_alerts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notify_on_violation",
+   "fieldtype": "Check",
+   "label": "Alert on Violation",
+   "default": 0
+  },
+  {
+   "fieldname": "agency",
+   "fieldtype": "Link",
+   "label": "Agency",
+   "options": "Agency",
+   "in_standard_filter": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  },
+  {
+   "role": "Rent Pro Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  },
+  {
+   "role": "Rent Pro Fleet Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

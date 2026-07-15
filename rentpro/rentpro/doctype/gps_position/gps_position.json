@@ -1,0 +1,175 @@
+{
+ "name": "GPS Position",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "autoname": "hash",
+ "title_field": "vehicle",
+ "search_fields": "vehicle,latitude,longitude",
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 0,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_position",
+   "fieldtype": "Section Break",
+   "label": "Position"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Vehicle",
+   "options": "Vehicle",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "timestamp",
+   "fieldtype": "Datetime",
+   "label": "Timestamp",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "default": "Now"
+  },
+  {
+   "fieldname": "column_speed",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "speed",
+   "fieldtype": "Float",
+   "label": "Speed (km/h)",
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "heading",
+   "fieldtype": "Float",
+   "label": "Heading (°)",
+   "description": "0-360 degrees"
+  },
+  {
+   "fieldname": "section_coords",
+   "fieldtype": "Section Break",
+   "label": "Coordinates"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Float",
+   "label": "Latitude",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Float",
+   "label": "Longitude",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_alt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "altitude",
+   "fieldtype": "Float",
+   "label": "Altitude (m)"
+  },
+  {
+   "fieldname": "accuracy",
+   "fieldtype": "Float",
+   "label": "Accuracy (m)"
+  },
+  {
+   "fieldname": "section_vehicle_state",
+   "fieldtype": "Section Break",
+   "label": "Vehicle State"
+  },
+  {
+   "fieldname": "ignition",
+   "fieldtype": "Check",
+   "label": "Ignition On",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "engine_running",
+   "fieldtype": "Check",
+   "label": "Engine Running"
+  },
+  {
+   "fieldname": "column_telemetry",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fuel_level",
+   "fieldtype": "Percent",
+   "label": "Fuel Level",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "battery_level",
+   "fieldtype": "Percent",
+   "label": "Battery Level"
+  },
+  {
+   "fieldname": "gps_signal_strength",
+   "fieldtype": "Percent",
+   "label": "GPS Signal"
+  },
+  {
+   "fieldname": "section_meta",
+   "fieldtype": "Section Break",
+   "label": "Metadata",
+   "hidden": 1
+  },
+  {
+   "fieldname": "agency",
+   "fieldtype": "Link",
+   "label": "Agency",
+   "options": "Agency",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Data",
+   "label": "Provider",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Rent Pro Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Rent Pro Fleet Manager",
+   "read": 1,
+   "write": 0,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 0
+  }
+ ],
+ "sort_field": "timestamp",
+ "sort_order": "DESC",
+ "track_seen": 1
+}

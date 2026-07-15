@@ -1,0 +1,146 @@
+{
+ "name": "Vehicle Tracking",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "autoname": "field:vehicle",
+ "title_field": "vehicle",
+ "search_fields": "vehicle,status",
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_vehicle",
+   "fieldtype": "Section Break",
+   "label": "Vehicle"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Vehicle",
+   "options": "Vehicle",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Tracking Status",
+   "options": "Online\nOffline\nIdle\nMoving\nMaintenance",
+   "default": "Offline",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_position",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_latitude",
+   "fieldtype": "Float",
+   "label": "Last Latitude"
+  },
+  {
+   "fieldname": "last_longitude",
+   "fieldtype": "Float",
+   "label": "Last Longitude"
+  },
+  {
+   "fieldname": "last_speed",
+   "fieldtype": "Float",
+   "label": "Last Speed (km/h)"
+  },
+  {
+   "fieldname": "section_telemetry",
+   "fieldtype": "Section Break",
+   "label": "Telemetry"
+  },
+  {
+   "fieldname": "ignition",
+   "fieldtype": "Check",
+   "label": "Ignition On",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "fuel_level",
+   "fieldtype": "Percent",
+   "label": "Fuel Level",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "battery_level",
+   "fieldtype": "Percent",
+   "label": "Battery Level"
+  },
+  {
+   "fieldname": "column_health",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "engine_running",
+   "fieldtype": "Check",
+   "label": "Engine Running"
+  },
+  {
+   "fieldname": "gps_signal_strength",
+   "fieldtype": "Percent",
+   "label": "GPS Signal"
+  },
+  {
+   "fieldname": "current_mileage",
+   "fieldtype": "Int",
+   "label": "Current Mileage (km)"
+  },
+  {
+   "fieldname": "section_update",
+   "fieldtype": "Section Break",
+   "label": "Last Update"
+  },
+  {
+   "fieldname": "last_update",
+   "fieldtype": "Datetime",
+   "label": "Last Update",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Data",
+   "label": "Provider",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  },
+  {
+   "role": "Rent Pro Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1
+  },
+  {
+   "role": "Rent Pro Fleet Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1
+  }
+ ],
+ "sort_field": "last_update",
+ "sort_order": "DESC"
+}

@@ -1,0 +1,14 @@
+{
+ "name": "Tracked Vehicles",
+ "label": "Tracked Vehicles",
+ "module": "Rent Pro",
+ "type": "Count",
+ "document_type": "Vehicle Tracking",
+ "filters": [["Vehicle Tracking", "status", "!=", "Offline"]],
+ "filters_json": "[[\"Vehicle Tracking\",\"status\",\"!=\",\"Offline\"]]",
+ "is_tree": 0,
+ "show_percentage": 0,
+ "show_latest_data": 1,
+ "interval": "Monthly",
+ "color": "#22c55e"
+}
