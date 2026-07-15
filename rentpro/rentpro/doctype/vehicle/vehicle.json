@@ -1,0 +1,254 @@
+{
+  "name": "Vehicle",
+  "module": "Rent Pro",
+  "doctype": "DocType",
+  "document_type": "Document",
+  "issingle": 0,
+  "istable": 0,
+  "editable_grid": 0,
+  "track_changes": 1,
+  "engine": "InnoDB",
+  "autoname": "format:VEH-{####}",
+  "title_field": "make",
+  "search_fields": "plate_number,make,model,vin",
+  "fields": [
+    {
+      "fieldname": "core_section",
+      "fieldtype": "Section Break",
+      "label": "Core Information"
+    },
+    {
+      "fieldname": "plate_number",
+      "fieldtype": "Data",
+      "label": "Plate Number",
+      "reqd": 1,
+      "unique": 1,
+      "bold": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "column_break_core",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "vin",
+      "fieldtype": "Data",
+      "label": "VIN",
+      "reqd": 1,
+      "unique": 1,
+      "description": "Vehicle Identification Number (17 characters)"
+    },
+    {
+      "fieldname": "make",
+      "fieldtype": "Data",
+      "label": "Make",
+      "reqd": 1,
+      "in_list_view": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "model",
+      "fieldtype": "Data",
+      "label": "Model",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "column_break_make_model",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "year",
+      "fieldtype": "Int",
+      "label": "Year",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "color",
+      "fieldtype": "Data",
+      "label": "Color",
+      "reqd": 1
+    },
+    {
+      "fieldname": "category",
+      "fieldtype": "Link",
+      "label": "Category",
+      "options": "Vehicle Category",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "operations_section",
+      "fieldtype": "Section Break",
+      "label": "Operations"
+    },
+    {
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "label": "Status",
+      "options": "Available\nReserved\nRented\nMaintenance\nSold\nInactive",
+      "reqd": 1,
+      "default": "Available",
+      "in_list_view": 1,
+      "in_standard_filter": 1,
+      "bold": 1
+    },
+    {
+      "fieldname": "column_break_ops",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "current_mileage",
+      "fieldtype": "Int",
+      "label": "Current Mileage (km)",
+      "reqd": 1,
+      "default": "0"
+    },
+    {
+      "fieldname": "fuel_type",
+      "fieldtype": "Select",
+      "label": "Fuel Type",
+      "options": "Petrol\nDiesel\nElectric\nHybrid",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "transmission",
+      "fieldtype": "Select",
+      "label": "Transmission",
+      "options": "Manual\nAutomatic",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "column_break_fuel_trans",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "seats",
+      "fieldtype": "Int",
+      "label": "Seats",
+      "reqd": 1
+    },
+    {
+      "fieldname": "agency",
+      "fieldtype": "Link",
+      "label": "Agency",
+      "options": "Agency",
+      "description": "Owning agency (SaaS tenant)"
+    },
+    {
+      "fieldname": "financial_section",
+      "fieldtype": "Section Break",
+      "label": "Financial"
+    },
+    {
+      "fieldname": "daily_rate",
+      "fieldtype": "Currency",
+      "label": "Daily Rate",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "column_break_financial_1",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "weekly_rate",
+      "fieldtype": "Currency",
+      "label": "Weekly Rate"
+    },
+    {
+      "fieldname": "monthly_rate",
+      "fieldtype": "Currency",
+      "label": "Monthly Rate"
+    },
+    {
+      "fieldname": "column_break_financial_2",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "deposit_amount",
+      "fieldtype": "Currency",
+      "label": "Deposit Amount",
+      "description": "Security deposit required for this vehicle"
+    },
+    {
+      "fieldname": "compliance_section",
+      "fieldtype": "Section Break",
+      "label": "Compliance"
+    },
+    {
+      "fieldname": "insurance_expiry",
+      "fieldtype": "Date",
+      "label": "Insurance Expiry",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "technical_inspection_expiry",
+      "fieldtype": "Date",
+      "label": "Technical Inspection Expiry",
+      "reqd": 1,
+      "in_standard_filter": 1
+    },
+    {
+      "fieldname": "column_break_compliance",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "registration_expiry",
+      "fieldtype": "Date",
+      "label": "Registration Expiry",
+      "reqd": 1
+    },
+    {
+      "fieldname": "metadata_section",
+      "fieldtype": "Section Break",
+      "label": "Metadata",
+      "collapsible": 1
+    },
+    {
+      "fieldname": "active",
+      "fieldtype": "Check",
+      "label": "Active",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "column_break_metadata",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "Rent Pro Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "Rent Pro Fleet Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "unique_field": "plate_number"
+}

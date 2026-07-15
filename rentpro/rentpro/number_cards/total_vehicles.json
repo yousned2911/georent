@@ -1,0 +1,10 @@
+{
+  "name": "Total Vehicles",
+  "label": "Total Vehicles",
+  "type": "Count",
+  "document_type": "Vehicle",
+  "module": "Rent Pro",
+  "filters": [],
+  "description": "Total number of vehicles in fleet",
+  "owner": "Administrator"
+}

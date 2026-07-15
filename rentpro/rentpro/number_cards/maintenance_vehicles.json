@@ -1,0 +1,12 @@
+{
+  "name": "Vehicles in Maintenance",
+  "label": "Vehicles in Maintenance",
+  "type": "Count",
+  "document_type": "Vehicle",
+  "module": "Rent Pro",
+  "filters": [
+    ["status", "=", "Maintenance"]
+  ],
+  "description": "Vehicles currently in maintenance",
+  "owner": "Administrator"
+}

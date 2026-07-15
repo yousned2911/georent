@@ -1,0 +1,12 @@
+{
+  "name": "Rented Vehicles",
+  "label": "Rented Vehicles",
+  "type": "Count",
+  "document_type": "Vehicle",
+  "module": "Rent Pro",
+  "filters": [
+    ["status", "=", "Rented"]
+  ],
+  "description": "Vehicles currently rented out",
+  "owner": "Administrator"
+}

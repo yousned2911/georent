@@ -1,0 +1,12 @@
+{
+  "name": "Available Vehicles",
+  "label": "Available Vehicles",
+  "type": "Count",
+  "document_type": "Vehicle",
+  "module": "Rent Pro",
+  "filters": [
+    ["status", "=", "Available"]
+  ],
+  "description": "Vehicles available for rental",
+  "owner": "Administrator"
+}
