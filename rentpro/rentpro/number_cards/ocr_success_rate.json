@@ -1,0 +1,14 @@
+{
+ "name": "OCR Success Rate",
+ "label": "OCR Success Rate",
+ "module": "Rent Pro",
+ "type": "Expression",
+ "document_type": "Document Record",
+ "expression": "SELECT ROUND(COUNT(CASE WHEN ocr_status='Completed' THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0), 1) FROM `tabDocument Record` WHERE ocr_enabled=1",
+ "filters_json": "[]",
+ "is_tree": 0,
+ "show_percentage": 0,
+ "show_latest_data": 1,
+ "interval": "Monthly",
+ "color": "#28a745"
+}

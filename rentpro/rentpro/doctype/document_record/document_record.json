@@ -1,0 +1,305 @@
+{
+ "name": "Document Record",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "autoname": "DOC-{#####}",
+ "title_field": "document_name",
+ "subject_field": "customer",
+ "search_fields": "document_number,customer,document_name,document_type",
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 1,
+ "track_seen": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_identification",
+   "fieldtype": "Section Break",
+   "label": "Document Identification"
+  },
+  {
+   "fieldname": "document_number",
+   "fieldtype": "Data",
+   "label": "Document Number",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Vehicle",
+   "options": "Vehicle",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "contract",
+   "fieldtype": "Link",
+   "label": "Rental Contract",
+   "options": "Rental Contract",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_doc_type",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_type",
+   "fieldtype": "Select",
+   "label": "Document Type",
+   "options": "National ID\nPassport\nDriver License\nResidence Permit\nRegistration Card\nInsurance Certificate\nTechnical Inspection\nOwnership Document",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "document_name",
+   "fieldtype": "Data",
+   "label": "Document Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "issuing_country",
+   "fieldtype": "Link",
+   "label": "Issuing Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "issuing_authority",
+   "fieldtype": "Data",
+   "label": "Issuing Authority"
+  },
+  {
+   "fieldname": "section_dates",
+   "fieldtype": "Section Break",
+   "label": "Validity"
+  },
+  {
+   "fieldname": "issue_date",
+   "fieldtype": "Date",
+   "label": "Issue Date"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nExpired\nArchived",
+   "default": "Active",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "agency",
+   "fieldtype": "Link",
+   "label": "Agency",
+   "options": "Agency",
+   "reqd": 0,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "section_ocr",
+   "fieldtype": "Section Break",
+   "label": "OCR Extraction",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "ocr_enabled",
+   "fieldtype": "Check",
+   "label": "OCR Enabled",
+   "default": 1
+  },
+  {
+   "fieldname": "ocr_status",
+   "fieldtype": "Select",
+   "label": "OCR Status",
+   "options": "Pending\nProcessing\nCompleted\nFailed\nManual Review",
+   "default": "Pending",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "extracted_name",
+   "fieldtype": "Data",
+   "label": "Extracted Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extracted_document_number",
+   "fieldtype": "Data",
+   "label": "Extracted Document Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extracted_expiry_date",
+   "fieldtype": "Date",
+   "label": "Extracted Expiry Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extracted_date_of_birth",
+   "fieldtype": "Date",
+   "label": "Extracted Date of Birth",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extracted_license_number",
+   "fieldtype": "Data",
+   "label": "Extracted License Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "extracted_country",
+   "fieldtype": "Data",
+   "label": "Extracted Country",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_ocr2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "extracted_text",
+   "fieldtype": "Long Text",
+   "label": "Extracted Text",
+   "read_only": 1
+  },
+  {
+   "fieldname": "confidence_score",
+   "fieldtype": "Percent",
+   "label": "Confidence Score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ocr_provider",
+   "fieldtype": "Data",
+   "label": "OCR Provider",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ocr_error",
+   "fieldtype": "Small Text",
+   "label": "OCR Error",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "section_files",
+   "fieldtype": "Section Break",
+   "label": "Files"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Document File",
+   "reqd": 1
+  },
+  {
+   "fieldname": "thumbnail",
+   "fieldtype": "Attach Image",
+   "label": "Thumbnail"
+  },
+  {
+   "fieldname": "section_metadata",
+   "fieldtype": "Section Break",
+   "label": "Metadata"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "uploaded_by",
+   "fieldtype": "Link",
+   "label": "Uploaded By",
+   "options": "User",
+   "read_only": 1,
+   "default": "__user"
+  },
+  {
+   "fieldname": "uploaded_at",
+   "fieldtype": "Datetime",
+   "label": "Uploaded At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_audit",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "audit_log",
+   "fieldtype": "Table",
+   "label": "Audit Log",
+   "options": "Document Audit Log"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Rent Pro Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Rent Pro Fleet Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "export": 0
+  },
+  {
+   "role": "Rental Agent",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 0,
+   "export": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

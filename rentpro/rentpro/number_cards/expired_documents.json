@@ -1,0 +1,14 @@
+{
+ "name": "Expired Documents",
+ "label": "Expired Documents",
+ "module": "Rent Pro",
+ "type": "Count",
+ "document_type": "Document Record",
+ "filters": [["Document Record", "status", "=", "Expired"]],
+ "filters_json": "[[\"Document Record\",\"status\",\"=\",\"Expired\"]]",
+ "is_tree": 0,
+ "show_percentage": 0,
+ "show_latest_data": 1,
+ "interval": "Monthly",
+ "color": "#ff4d4d"
+}

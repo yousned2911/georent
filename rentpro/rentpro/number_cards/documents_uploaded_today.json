@@ -1,0 +1,14 @@
+{
+ "name": "Documents Uploaded Today",
+ "label": "Documents Uploaded Today",
+ "module": "Rent Pro",
+ "type": "Count",
+ "document_type": "Document Record",
+ "filters": [["Document Record", "creation", ">", "Today"]],
+ "filters_json": "[[\"Document Record\",\"creation\",\">\",\"Today\"]]",
+ "is_tree": 0,
+ "show_percentage": 0,
+ "show_latest_data": 1,
+ "interval": "Monthly",
+ "color": "#17a2b8"
+}
