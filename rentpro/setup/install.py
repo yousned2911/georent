@@ -8,6 +8,8 @@ def before_install():
 
 def after_install():
     frappe.publish_progress(100, title="Installing Rent Pro")
+    frappe.db.commit()
+    frappe.clear_cache()
     _create_default_settings()
     _create_custom_fields()
     frappe.db.commit()
