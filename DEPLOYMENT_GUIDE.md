@@ -1,213 +1,299 @@
-# Rent Pro v1.0 — Deployment Guide
+# Rent Pro v1.0 RC1 — Deployment Guide
 
-**Version:** 1.0.0-rc1
-**Target:** Frappe Cloud or Self-Hosted
-
----
-
-## Prerequisites
-
-| Requirement | Version |
-|-------------|---------|
-| Python | 3.10+ |
-| MariaDB | 10.6+ |
-| Node.js | 18+ |
-| Frappe Framework | v15+ |
-| ERPNext | v15+ |
-| Redis | 6+ |
-| bench CLI | Latest |
+**Version:** 1.0 RC1  
+**Date:** 2026-07-15  
+**Platform:** Frappe/ERPNext v15
 
 ---
 
-## Fresh Installation
+## Table of Contents
 
-### Step 1: Install Frappe Bench
+1. [Prerequisites](#1-prerequisites)
+2. [Installation Steps](#2-installation-steps)
+3. [Post-Installation Configuration](#3-post-installation-configuration)
+4. [Roles Reference](#4-roles-reference)
+5. [Environment Variables](#5-environment-variables)
+6. [Security Considerations](#6-security-considerations)
+7. [Monitoring](#7-monitoring)
+8. [Backup](#8-backup)
+9. [Troubleshooting](#9-troubleshooting)
+10. [Next Steps](#10-next-steps)
+
+---
+
+## 1. Prerequisites
+
+Ensure the following components are installed and running before proceeding:
+
+| Component       | Minimum Version | Notes                                    |
+|-----------------|-----------------|------------------------------------------|
+| Python          | 3.10+           | Recommended: 3.11                        |
+| MariaDB         | 10.6+           | With `utf8mb4` and `utf8mb4_unicode_ci`  |
+| Node.js         | 18+             | For bench asset building                 |
+| Redis           | 6+              | Three instances: cache, queue, socketio  |
+| Frappe Bench    | 5.x+            | CLI tool for managing Frappe deployments |
+| ERPNext         | v15             | Required dependency for Rent Pro         |
+
+**Verify your environment:**
 
 ```bash
-# Ubuntu/Debian
-sudo apt update
-sudo apt install -y python3-dev python3-pip python3-venv \
-    mariadb-server redis-server git curl
-
-# Install bench
-pip3 install frappe-bench
-
-# Initialize bench
-bench init --frappe-branch version-15 bench-root
-cd bench-root
+python3 --version
+mariadb --version
+node --version
+redis-server --version
+bench --version
 ```
 
-### Step 2: Create Site
+---
+
+## 2. Installation Steps
+
+All commands below assume you are operating as the `frappe` user within your bench directory.
+
+### 2.1 Get the App
 
 ```bash
-bench new-site site-name.local \
-    --mariadb-root-password your-password \
-    --admin-password admin-password
-bench --site site-name.local set-config developer_mode 1
-bench use site-name.local
+bench get-app https://github.com/your-org/rent_pro.git
 ```
 
-### Step 3: Install ERPNext
+Or from a local path:
 
 ```bash
-bench get-app erpnext --branch version-15
-bench --site site-name.local install-app erpnext
+bench get-app /path/to/rent_pro
 ```
 
-### Step 4: Install Rent Pro
+### 2.2 Install the App
 
 ```bash
-bench get-app /path/to/rentpro.git
-# OR from GitHub:
-# bench get-app https://github.com/your-org/rentpro.git
+bench --site your-site.local install-app rent_pro
+```
 
-bench --site site-name.local install-app rentpro
-bench --site site-name.local migrate
-bench build
+This registers all Rent Pro DocTypes, roles, and permissions with your site.
+
+### 2.3 Run Database Migrations
+
+```bash
+bench --site your-site.local migrate
+```
+
+### 2.4 Build Frontend Assets
+
+```bash
+bench build --app rent_pro
+```
+
+### 2.5 Restart Workers
+
+```bash
 bench restart
 ```
 
-### Step 5: Verify Installation
+### 2.6 Verify Installation
 
 ```bash
-# Check hooks resolve
-bench --site site-name.local console
->>> import rentpro
->>> print(rentpro.__version__)
-
-# Check DocTypes exist
->>> frappe.get_doc("DocType", "Vehicle")
->>> frappe.get_doc("DocType", "Agency")
-
-# Check roles created
->>> frappe.get_all("Role", filters={"role_name": ["like", "Rent Pro%"]})
+bench --site your-site.local console
 ```
 
-### Step 6: Configure
-
-1. Navigate to **Rent Pro Settings** in desk
-2. Set agency name, currency (MAD), default TVA rate
-3. Configure OCR settings (enable/disable, confidence threshold)
-4. Configure GeoFleete (enable, select provider, set mock mode)
-5. Configure SaaS Settings (enable SaaS mode, set billing parameters)
-6. Configure System Health Settings (enable health checks)
+```python
+import rent_pro
+print(rent_pro.__version__)
+```
 
 ---
 
-## Production Configuration
+## 3. Post-Installation Configuration
 
-### Environment Variables
+### 3.1 Rent Pro Settings
+
+Navigate to: **Rent Pro > Rent Pro Settings**
+
+Configure the following:
+
+- **Default Currency:** Set to MAD (Moroccan Dirham) for local operations
+- **Company Name:** Link to your ERPNext Company record
+- **Default Tax Template:** Configure applicable Moroccan VAT rates
+- **Rental Number Prefix:** Set the prefix for auto-generated rental agreements (e.g., `RA-`)
+- **Reservation Prefix:** Set the prefix for reservations (e.g., `RV-`)
+
+### 3.2 Agency Setup
+
+Create your agency record under **Rent Pro > Agency**:
+
+- Agency name and legal entity details
+- Address (physical location)
+- Contact information
+- Link to the ERPNext Company
+- Operating hours
+
+### 3.3 User Roles and Permissions
+
+Create users and assign roles-based permissions as outlined in the table below. Assign roles via **Settings > User > User Role**.
+
+At minimum, configure:
+
+- **System Manager** for administrators (already exists in Frappe)
+- **Rent Pro Manager** for operations leads
+- **Rent Pro User** for front-desk staff
+
+---
+
+## 4. Roles Reference
+
+Rent Pro introduces the following custom roles:
+
+| Role                    | Scope / Description                                              |
+|-------------------------|------------------------------------------------------------------|
+| **Rent Pro Manager**    | Full access to all Rent Pro modules. Manages fleet, contracts, and financial records. |
+| **Rent Pro User**       | Day-to-day operations: creates reservations, manages check-in/out, and views reports. |
+| **Fleet Manager**       | Manages vehicles, maintenance schedules, insurance, and vehicle availability. |
+| **Contract Manager**    | Creates and manages rental agreements, amends contracts, and handles extensions. |
+| **Customer Service**    | Handles reservations, customer interactions, and basic reporting. |
+| **Finance Manager**     | Manages invoicing, payments, and financial reconciliation within Rent Pro. |
+| **Workshop Manager**    | Manages maintenance tasks, parts inventory, and service records. |
+
+---
+
+## 5. Environment Variables
+
+Rent Pro requires **no environment variables**. All configuration is managed through the **Rent Pro Settings** DocType within the Frappe web interface.
+
+If your Frappe/ERPNext instance already uses environment variables (e.g., `DB_HOST`, `REDIS_CACHE`), those apply as usual but are managed at the Frappe level, not Rent Pro.
+
+---
+
+## 6. Security Considerations
+
+### 6.1 HTTPS
+
+- **Enable HTTPS** on your Frappe site using a reverse proxy (e.g., Nginx) with a valid TLS certificate.
+- Disable HTTP access entirely in production.
+
+### 6.2 Role-Based Access Control
+
+- Assign the **minimum required role** to each user.
+- Avoid granting **Rent Pro Manager** to non-administrative users.
+- Review role assignments periodically under **Settings > Role Profile**.
+
+### 6.3 Audit Logging
+
+- Rent Pro logs all critical actions (contract creation, amendments, payments) with timestamps and user attribution.
+- Enable Frappe's standard **Activity Log** and **Document Version** tracking.
+- Review logs under **Audit Trail** and **Activity Log** in the Frappe desk.
+
+### 6.4 Additional Recommendations
+
+- Enforce strong passwords via Frappe's **System Settings**.
+- Enable **Two-Factor Authentication (2FA)** for administrative accounts.
+- Restrict desk access for users who only need portal access.
+
+---
+
+## 7. Monitoring
+
+### 7.1 System Health Check
 
 ```bash
-# In site_config.json
-{
-    "db_name": "rentpro_db",
-    "db_password": "secure-password",
-    "secret_key": "auto-generated-key",
-    "developer_mode": 0
-}
+bench doctor --site your-site.local
 ```
 
-### Recommended Settings
+This checks database integrity, background worker status, and queued jobs.
 
-```json
-// site_config.json additions
-{
-    "background_workers": 2,
-    "scheduler_enabled": 1,
-    "allow_login_using_mobile_number": 0,
-    "allow_login_using_user_name": 1
-}
+### 7.2 Background Jobs
+
+Monitor the background job queue via:
+
+```bash
+bench --site your-site.local console
 ```
 
-### Redis Configuration
-
-Ensure Redis is running for:
-- Cache: `redis_cache` (default port 13000)
-- Queue: `redis_queue` (default port 11000)
-- Socketio: `redis_socketio` (default port 12000)
-
-### MariaDB Configuration
-
-Recommended for 1000+ agencies:
-
-```ini
-[mysqld]
-innodb_buffer_pool_size = 4G
-innodb_log_file_size = 1G
-max_connections = 500
-query_cache_type = 0
-character-set-server = utf8mb4
-collation-server = utf8mb4_unicode_ci
+```python
+from frappe.utils.background_jobs import get_queue_list
+from frappe import get_jobs
+print(get_jobs())
 ```
 
----
+Or view via the web desk: **Settings > Background Jobs**.
 
-## Frappe Cloud Deployment
+### 7.3 Site Health
 
-1. Push to GitHub repository
-2. Connect repository to Frappe Cloud
-3. Select branch and app
-4. Install on target site
-5. Frappe Cloud handles scaling, backups, and SSL
+```bash
+bench --site your-site.local requests --limit 20
+```
 
----
+Check request logs for errors or performance issues.
 
-## Post-Installation Checklist
-
-- [ ] Rent Pro Settings configured
-- [ ] Default agency created
-- [ ] Vehicle Categories set up
-- [ ] TVA Rates configured (20%, 14%, 10%, 7%)
-- [ ] OCR provider configured (if using)
-- [ ] GeoFleete enabled (if using)
-- [ ] SaaS Settings configured (if multi-tenant)
-- [ ] Feature Flags reviewed
-- [ ] System Health Settings configured
-- [ ] Super Admin Settings reviewed
-- [ ] Custom roles assigned to users
-- [ ] Print format reviewed
-- [ ] Test contract printed
-
----
-
-## Monitoring
-
-### Health Checks
-
-Health checks run daily via `scheduled_health_check()`. Check status at:
-- **System Health Settings** single DocType in desk
-- Or call `rentpro.super_admin.system_health.get_health_status()`
-
-### Scheduled Jobs
-
-| Job | Frequency | Purpose |
-|-----|-----------|---------|
-| `daily_tasks` | Daily | Document expiry warnings, vehicle compliance |
-| `scheduled_subscription_renewal` | Daily | Process subscription renewals |
-| `scheduled_check_overdue_subscriptions` | Daily | Mark past due, suspend overdue |
-| `scheduled_health_check` | Daily | System health monitoring |
-| `hourly_tasks` | Hourly | Document expiration monitoring |
-| `geofleete_heartbeat` | Every 5 min | GPS simulation (mock mode) |
-
----
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Hooks not resolving**: Run `bench build` and `bench restart`
-2. **Missing DocTypes**: Run `bench migrate`
-3. **Permission errors**: Check custom roles are assigned to users
-4. **GPS not working**: Verify GeoFleete Settings is enabled and mock mode is on
-5. **OCR failing**: Check Tesseract installation (`tesseract --version`)
-
-### Logs
+### 7.4 Log Files
 
 ```bash
 # Frappe logs
-tail -f sites/site-name.local/logs/frappe.log
+tail -f /home/frappe/frappe-bench/logs/web.log
+
+# Worker logs
+tail -f /home/frappe/frappe-bench/logs/worker.log
 
 # Scheduler logs
-bench --site site-name.local scheduler status
+tail -f /home/frappe/frappe-bench/logs/scheduler.log
 ```
+
+---
+
+## 8. Backup
+
+Rent Pro uses standard Frappe backup mechanisms. No additional backup configuration is required.
+
+### 8.1 Manual Backup
+
+```bash
+bench --site your-site.local backup --with-files
+```
+
+This creates:
+
+- A database dump (`.sql.gz`)
+- A site config backup
+- Uploaded files and private files
+
+### 8.2 Automated Backups
+
+Frappe supports scheduled backups. Configure via:
+
+- **Settings > System Settings > Backup** — set the backup interval
+- Or use cron to run `bench --site your-site.local backup --with-files` on a schedule
+
+### 8.3 Restore
+
+```bash
+bench --site your-site.local restore /path/to/backup.sql.gz --with-files
+```
+
+---
+
+## 9. Troubleshooting
+
+| Issue                                    | Solution                                                                 |
+|------------------------------------------|--------------------------------------------------------------------------|
+| `bench get-app` fails                    | Verify git is installed and the repository URL is correct.               |
+| `install-app` throws import errors       | Ensure ERPNext v15 is installed before Rent Pro.                         |
+| Assets not loading after `bench build`   | Run `bench clear-cache` then `bench build --app rent_pro` again.         |
+| Roles not appearing in desk              | Run `bench --site your-site.local migrate` and restart.                  |
+| DocType fields missing after update      | Run `bench --site your-site.local migrate` and `bench build --app rent_pro`. |
+| Background jobs stuck                    | Restart workers: `bench restart`. Check `bench doctor` for issues.       |
+| Permission errors on custom DocTypes     | Verify role assignments under **User > Role**. Reinstall if needed: `bench --site your-site.local reinstall`. |
+
+---
+
+## 10. Next Steps
+
+After successful deployment:
+
+1. **Seed initial data** — Import your vehicle fleet, customer records, and insurance providers.
+2. **Configure templates** — Set up rental agreement templates and invoice templates under **Rent Pro Settings**.
+3. **Train staff** — Provide desk walkthroughs for roles: Fleet Manager, Contract Manager, and Customer Service.
+4. **Integrate payment gateways** — If applicable, configure Moroccan payment providers (e.g., CMI, M-Wallet) via ERPNext Payments.
+5. **Schedule backups** — Set up automated daily backups with off-site storage.
+6. **Monitor and iterate** — Review system logs weekly for the first month post-deployment.
+7. **Report issues** — File bugs and feature requests via the project's GitHub Issues page.
+
+---
+
+*For questions or support, contact the development team or open an issue at the project repository.*

@@ -1,188 +1,231 @@
-# Rent Pro v1.0 — Backup & Restore Guide
+# Backup Guide — Rent Pro v1.0 RC1 (Frappe Cloud)
 
-**Version:** 1.0.0-rc1
-
----
-
-## Backup Strategy
-
-### What to Back Up
-
-| Component | Location | Priority |
-|-----------|----------|----------|
-| Database | MariaDB | CRITICAL |
-| Site Config | `sites/site-name.local/site_config.json` | CRITICAL |
-| Apps | `apps.txt` | HIGH |
-| Private Files | `sites/site-name.local/private/files/` | HIGH |
-| Public Files | `sites/site-name.local/public/files/` | MEDIUM |
-| Logs | `sites/site-name.local/logs/` | LOW |
-
-### Frappe Cloud
-
-Frappe Cloud provides automatic daily backups. Manual backups available via:
-- **Bench Dashboard** → Backups → Create Backup
-- **API**: `GET /api/method/frappe.core.doctype.backup.backup.get_backup`
-
-### Self-Hosted
-
-```bash
-# Full backup (database + files)
-bench --site site-name.local backup --with-files
-
-# Database only
-bench --site site-name.local backup
-
-# Database + private files
-bench --site site-name.local backup --with-private-files
-
-# Database + public files
-bench --site site-name.local backup --with-public-files
-```
-
-### Automated Backup Script
-
-```bash
-#!/bin/bash
-# /etc/cron.d/rentpro-backup
-# Runs daily at 2 AM
-
-SITE="site-name.local"
-BACKUP_DIR="/backups/rentpro"
-DATE=$(date +%Y%m%d_%H%M%S)
-
-cd /home/frappe/bench-root
-
-# Create backup
-bench --site $SITE backup --with-files
-
-# Move to backup directory
-mkdir -p $BACKUP_DIR
-mv sites/$SITE/private/backups/* $BACKUP_DIR/ 2>/dev/null
-
-# Keep last 30 days
-find $BACKUP_DIR -name "*.sql.gz" -mtime +30 -delete
-find $BACKUP_DIR -name "*.tar" -mtime +30 -delete
-```
+**Last updated:** 2026-07-15
 
 ---
 
-## Restore Procedures
+## Why Backup Is Critical
 
-### Full Restore (Frappe Cloud)
+Rent Pro manages your entire rental lifecycle — property records, tenant contracts, payment schedules, invoices, and OCR-processed documents. Losing this data means:
 
-1. Go to Bench Dashboard → Backups
-2. Select backup date
-3. Click "Restore"
-4. Confirm restoration
+- **Contract history** — Lease agreements, renewal records, and tenant correspondence become unrecoverable
+- **Financial records** — Outstanding balances, payment history, and invoice logs are lost
+- **Compliance risk** — Tax-relevant documents and audit trails disappear
+- **Operational disruption** — Manual reconstruction of rental data costs significant time and money
 
-### Full Restore (Self-Hosted)
+Regular backups are the only safety net for production data.
+
+---
+
+## Frappe's Built-In Backup
+
+Frappe Cloud provides the `bench backup` command via the web terminal or SSH.
+
+### Manual backup
 
 ```bash
-# Stop scheduler
-bench --site site-name.local scheduler stop
+bench backup
+```
 
-# Restore database
-bench --site site-name.local restore /path/to/backup.sql.gz
+### Verbose (includes progress)
+
+```bash
+bench --site [sitename].frappe.cloud backup --verbose
+```
+
+### Backup to a specific directory
+
+```bash
+bench backup --backup-path /tmp/backups
+```
+
+On Frappe Cloud, backups are accessible via the **Backups** tab in your site dashboard.
+
+---
+
+## What Gets Backed Up
+
+A full Frappe backup includes three components:
+
+| Component | Content | File type |
+|-----------|---------|-----------|
+| **Database** | All doctype data, fixtures, and metadata | `.sql.gz` |
+| **Public files** | Attachments served publicly, templates, static assets | `.tar.gz` |
+| **Private files** | Private attachments, uploaded documents, OCR scans | `.tar.gz` |
+
+All three must be restored together for a complete recovery.
+
+---
+
+## Backup Schedule Recommendations
+
+| Environment | Frequency | Method |
+|-------------|-----------|--------|
+| Production | **Daily** | Frappe Cloud scheduled backups (automatic) |
+| Production | Weekly manual | `bench backup` via web terminal |
+| Staging | Weekly | Scheduled or manual |
+| Development | Before changes | Manual `bench backup` |
+
+### Frappe Cloud automatic backups
+
+Frappe Cloud runs automatic backups by default. Confirm the schedule under **Site Dashboard → Backups → Backup Schedule**.
+
+### Manual safety net
+
+Even with automatic backups, perform a manual backup before:
+
+- Deploying custom apps or updates
+- Migrating fixtures or data
+- Major configuration changes
+
+---
+
+## Restore Procedure (Step by Step)
+
+### Prerequisites
+
+- The backup files (`.sql.gz` and `.tar.gz` archives)
+- SSH access or web terminal access to the target bench
+- A site that is in maintenance mode
+
+### Step 1 — Put the site in maintenance mode
+
+```bash
+bench --site [sitename] set-maintenance-mode on
+```
+
+### Step 2 — Stop background workers
+
+```bash
+bench --site [sitename] ready-for-production
+```
+
+### Step 3 — Restore the database
+
+```bash
+bench --site [sitename] restore [database_file.sql.gz]
+```
+
+### Step 4 — Restore public files
+
+```bash
+bench --site [sitename] restore --with-public-files [public_files.tar.gz]
+```
+
+### Step 5 — Restore private files
+
+```bash
+bench --site [sitename] restore --with-private-files [private_files.tar.gz]
+```
+
+### Step 6 — Run migrations
+
+```bash
+bench --site [sitename] migrate
+bench build
+```
+
+### Step 7 — Bring the site out of maintenance mode
+
+```bash
+bench --site [sitename] set-maintenance-mode off
+```
+
+### Step 8 — Verify
+
+- Log in to the site
+- Check that contracts, payments, and property records are intact
+- Confirm file attachments (OCR scans, uploaded documents) are accessible
+
+---
+
+## Data Recovery Considerations — Rent Pro Specifics
+
+### Contracts and agreements
+
+Contract doctypes link tenants, properties, and payment schedules. After a restore, verify:
+
+- All active lease contracts are present and correctly linked
+- Recurring payment entries are generated
+- Contract start/end dates are accurate
+
+### Payments and invoices
+
+Financial data depends on correct database integrity:
+
+- Check outstanding invoices against payment entries
+- Reconcile any scheduled payments that may have missed a generation cycle
+- Verify chart of accounts and cost centers if applicable
+
+### OCR-processed documents
+
+OCR uploads are stored as private file attachments. After restore:
+
+- Confirm the `private/files` directory contains all expected documents
+- Check that any OCR-linked doctypes (e.g., scanned receipts, signed contracts) resolve correctly
+- If attachments are broken, re-link them via the file manager
+
+### Custom doctypes and fixtures
+
+If Rent Pro uses custom fixtures:
+
+- Ensure fixture data was included in the backup
+- Run `bench --site [sitename] migrate` to sync schema changes
+- Verify custom fields and workflows
+
+---
+
+## Testing Backups Regularly
+
+A backup is only reliable if it has been tested.
+
+### Recommended testing schedule
+
+| Action | Frequency |
+|--------|-----------|
+| Full restore test (to a staging site) | Monthly |
+| Spot-check critical data | After every manual backup |
+| Verify file attachment integrity | After every restore |
+
+### How to test
+
+1. Restore the backup to a staging or development site using the steps above
+2. Log in and walk through key workflows:
+   - View property list and tenant records
+   - Open an active contract
+   - Check payment schedule and invoice history
+   - Download an uploaded document (OCR scan or attachment)
+3. Confirm all data is present and relationships are intact
+
+### What to watch for
+
+- Missing or broken file attachments (indicates incomplete private file backup)
+- Orphaned records (database restored but links not re-established)
+- Schema mismatches (backup from a different app version)
+
+---
+
+## Quick Reference
+
+```bash
+# Backup
+bench backup
+
+# Restore database only
+bench --site sitename restore backup.sql.gz
 
 # Restore with files
-bench --site site-name.local restore \
-    /path/to/backup.sql.gz \
-    --with-private-files /path/to/private-files.tar \
-    --with-public-files /path/to/public-files.tar
+bench --site sitename restore backup.sql.gz --with-public-files public.tar.gz --with-private-files private.tar.gz
 
-# Restart
-bench --site site-name.local scheduler start
-bench restart
-```
+# Maintenance mode
+bench --site sitename set-maintenance-mode on
+bench --site sitename set-maintenance-mode off
 
-### Database-Only Restore
-
-```bash
-bench --site site-name.local restore /path/to/database.sql.gz
-bench --site site-name.local migrate
-bench restart
+# Migrate after restore
+bench --site sitename migrate
+bench build
 ```
 
 ---
 
-## Site Migration
-
-### Moving to New Server
-
-```bash
-# On old server
-bench --site site-name.local backup --with-files
-tar -czf site-name.local.tar.gz \
-    sites/site-name.local/private/backups/ \
-    sites/site-name.local/site_config.json
-
-# Copy to new server
-scp site-name.local.tar.gz user@new-server:/path/to/
-
-# On new server
-cd bench-root
-bench new-site site-name.local
-bench --site site-name.local restore /path/to/backup.sql.gz \
-    --with-private-files /path/to/private-files.tar \
-    --with-public-files /path/to/public-files.tar
-bench --site site-name.local install-app rentpro
-bench --site site-name.local migrate
-bench restart
-```
-
----
-
-## Rent Pro Specific Considerations
-
-### Data Affected by Backup
-
-| Data Type | DocType | Backup Impact |
-|-----------|---------|---------------|
-| Fleet data | Vehicle, Vehicle Category | Full backup |
-| Reservations | Reservation | Full backup |
-| Contracts | Rental Contract | Full backup |
-| Payments | Payment Transaction | Full backup |
-| Expenses | Expense Entry | Full backup |
-| Documents | Document Record | Database + files |
-| GPS Data | GPS Position | Database only (high volume) |
-| Geofences | Geofence Zone, Geofence Alert | Full backup |
-| Subscriptions | Agency Subscription, Subscription Plan | Full backup |
-| Settings | All Single DocTypes | Full backup |
-| Audit Logs | Super Admin Audit Log | Full backup |
-
-### GPS Data Volume
-
-GPS Position records can accumulate rapidly (thousands per vehicle per day). Consider:
-
-```sql
--- Archive old GPS data before backup
-DELETE FROM `tabGPS Position`
-WHERE creation < DATE_SUB(NOW(), INTERVAL 90 DAY);
-```
-
-### License Keys
-
-License Key data includes encrypted payloads. Ensure backups are encrypted at rest for production.
-
----
-
-## Disaster Recovery
-
-### Recovery Time Objective (RTO)
-- **Frappe Cloud:** < 1 hour (managed)
-- **Self-hosted:** < 4 hours (depends on data size)
-
-### Recovery Point Objective (RPO)
-- **Frappe Cloud:** < 24 hours (daily backups)
-- **Self-hosted:** Depends on backup frequency (recommend hourly for production)
-
-### Recovery Steps
-
-1. Provision new server
-2. Install Frappe Bench
-3. Restore from backup
-4. Install Rent Pro app
-5. Run migrations
-6. Verify all data
-7. Update DNS
-8. Monitor for 24 hours
+*For Frappe Cloud-specific documentation, see: https://frappecloud.com/docs*

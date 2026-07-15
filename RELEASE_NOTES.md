@@ -101,3 +101,39 @@ From v0.x to v1.0: Run `bench migrate` after installation. No data migration req
 ## License
 
 MIT License
+
+---
+
+## RC1.1 — Pre-Deployment Audit Fixes
+
+**Version:** 1.0.0-rc1.1
+**Date:** 2026-07-15
+**Status:** RELEASE CANDIDATE — HOTFIX
+
+### Summary
+
+Critical bug fixes discovered during pre-deployment audit of the RC1 release. These patches address installation crashes, invalid configuration, deprecated API usage, and UI issues.
+
+### Fixes
+
+| File | Fix | Severity |
+|------|-----|----------|
+| `agency.json` | Invalid `fieldtype` key that caused DocType registration crash | Critical |
+| `agency.json` | Renamed non-ASCII fieldname `ocr_used_month` to valid identifier | High |
+| `rent_pro_settings.json` | TVA Rate Link `doctype` changed to Select type (broken doctype reference) | Critical |
+| `install.py` | Added missing `doctype` key for role creation (prevented install crash) | Critical |
+| `uninstall.py` | Removed orphaned custom field references that caused uninstall failures | High |
+| `gps/api.py` | Replaced deprecated `limit_page_length` with `limit`; added `int` casting for query parameters | Medium |
+| `tasks.py` | Corrected notification target for background job context | Medium |
+| `vehicle_category.json` | Added list view and filter fields for proper list view rendering | Medium |
+
+### Upgrade Notes
+
+No data migration is required. Run `bench migrate` and `bench build` after pulling these changes.
+
+```bash
+git pull origin main
+bench --site your-site.local migrate
+bench build
+bench restart
+```
