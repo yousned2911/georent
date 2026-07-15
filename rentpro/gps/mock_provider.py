@@ -9,6 +9,7 @@ import random
 
 import frappe
 from frappe.utils import now_datetime
+
 from rentpro.gps.provider import GPSProviderInterface
 
 # Casablanca city center approximate coordinates
