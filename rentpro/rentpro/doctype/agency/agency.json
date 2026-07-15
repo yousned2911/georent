@@ -87,7 +87,7 @@
   },
   {
    "fieldname": "address",
-   "Small Text": "Small Text",
+   "fieldtype": "Small Text",
    "label": "Address"
   },
   {
@@ -201,7 +201,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "ocr本月_used",
+   "fieldname": "ocr_used_month",
    "fieldtype": "Int",
    "label": "OCR Used (This Month)",
    "read_only": 1

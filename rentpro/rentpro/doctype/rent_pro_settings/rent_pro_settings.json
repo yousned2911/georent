@@ -35,9 +35,10 @@
     },
     {
       "fieldname": "default_tva_rate",
-      "fieldtype": "Link",
+      "fieldtype": "Select",
       "label": "Default TVA Rate",
-      "options": "TVA Rate"
+      "options": "20%\n14%\n10%\n7%\n0%",
+      "default": "20%"
     },
     {
       "fieldname": "ocr_section",

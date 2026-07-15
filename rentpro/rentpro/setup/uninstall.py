@@ -29,8 +29,6 @@ def _remove_custom_roles():
 
 def _remove_custom_fields():
     custom_fields = [
-        "Customer_rent_pro_customer_id",
-        "Employee_rent_pro_employee_id",
         "Sales Invoice_rental_contract",
     ]
     for cf_name in custom_fields:

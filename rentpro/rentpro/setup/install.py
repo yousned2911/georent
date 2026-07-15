@@ -53,6 +53,7 @@ def _create_custom_roles():
     ]
     for role in roles:
         if not frappe.db.exists("Role", role["role_name"]):
+            role["doctype"] = "Role"
             frappe.get_doc(role).insert(ignore_permissions=True)
 
 

@@ -50,7 +50,6 @@ def _check_document_expiries_job():
                         "field": field,
                         "expiry_date": str(expiry),
                     },
-                    user=frappe.session.user,
                 )
 
 
@@ -148,7 +147,7 @@ def _create_notification(subject, type, document_name):
                 "subject": subject,
                 "type": type,
                 "document_name": document_name,
-                "for_user": frappe.session.user,
+                "for_user": "Administrator",
             }
         ).insert(ignore_permissions=True)
     except Exception:

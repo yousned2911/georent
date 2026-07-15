@@ -110,7 +110,7 @@ def get_recent_alerts(limit=10, include_acknowledged=0):
             "resolution_notes",
         ],
         order_by="alert_timestamp desc",
-        limit_page_length=limit,
+        limit=int(limit),
     )
 
     for alert in alerts:
@@ -174,11 +174,20 @@ def get_fleet_summary():
 
 @frappe.whitelist()
 def simulate_fleet_movement(duration_seconds=30):
+    frappe.enqueue(
+        "_simulate_fleet_movement_job",
+        queue="short",
+        duration_seconds=int(duration_seconds),
+    )
+    return {"status": "ok", "message": "Fleet simulation queued"}
+
+
+def _simulate_fleet_movement_job(duration_seconds):
     from rentpro.gps import get_provider
 
     provider = get_provider()
     if not provider:
-        return {"status": "error", "message": "GeoFleete not enabled"}
+        return
 
     states = provider.get_all_vehicle_states()
     for vname in states:
@@ -189,8 +198,6 @@ def simulate_fleet_movement(duration_seconds=30):
             events = provider.check_geofences(vname, state["latitude"], state["longitude"])
             for event in events:
                 _create_geofence_alert(event)
-
-    return {"status": "ok", "vehicles": len(states)}
 
 
 def _save_position(vehicle_name, state):
