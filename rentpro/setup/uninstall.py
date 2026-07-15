@@ -37,9 +37,13 @@ def _remove_custom_fields():
 
 
 def _remove_settings():
-    if frappe.db.exists("Rent Pro Settings", "settings"):
-        frappe.delete_doc(
-            "Rent Pro Settings",
-            "settings",
-            ignore_permissions=True,
-        )
+    settings_docs = [
+        "Rent Pro Settings",
+        "GeoFleete Settings",
+        "SaaS Settings",
+        "Super Admin Settings",
+        "System Health Settings",
+    ]
+    for dt in settings_docs:
+        if frappe.db.exists(dt, dt):
+            frappe.delete_doc(dt, dt, ignore_permissions=True)

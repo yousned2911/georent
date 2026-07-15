@@ -1,5 +1,6 @@
 {
  "name": "Rent Pro Standard Contract",
+ "doctype": "Print Format",
  "doc_type": "Rental Contract",
  "module": "Rent Pro",
  "print_format_type": "Jinja",
