@@ -1,0 +1,269 @@
+{
+ "name": "Agency",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "autoname": "AGC-{####}",
+ "title_field": "agency_name",
+ "search_fields": "agency_name,city,contact_email",
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_core",
+   "fieldtype": "Section Break",
+   "label": "Agency Information"
+  },
+  {
+   "fieldname": "agency_name",
+   "fieldtype": "Data",
+   "label": "Agency Name",
+   "reqd": 1,
+   "bold": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "agency_type",
+   "fieldtype": "Select",
+   "label": "Agency Type",
+   "options": "Rental Company\nLeasing Company\nBoth",
+   "default": "Rental Company",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_core",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Active\nSuspended\nTrial\nCancelled",
+   "default": "Trial",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "subscription_plan",
+   "fieldtype": "Link",
+   "label": "Subscription Plan",
+   "options": "Subscription Plan",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "section_contact",
+   "fieldtype": "Section Break",
+   "label": "Contact & Address"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "column_contact",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address",
+   "Small Text": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country",
+   "default": "Morocco"
+  },
+  {
+   "fieldname": "section_business",
+   "fieldtype": "Section Break",
+   "label": "Business Details"
+  },
+  {
+   "fieldname": "tax_id",
+   "fieldtype": "Data",
+   "label": "Tax ID (ICE)"
+  },
+  {
+   "fieldname": "rc_number",
+   "fieldtype": "Data",
+   "label": "RC Number"
+  },
+  {
+   "fieldname": "fleet_size",
+   "fieldtype": "Int",
+   "label": "Fleet Size",
+   "description": "Number of vehicles managed"
+  },
+  {
+   "fieldname": "column_business",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "owner_user",
+   "fieldtype": "Link",
+   "label": "Owner User",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "domain",
+   "fieldtype": "Data",
+   "label": "Custom Domain",
+   "description": "Optional: agency.rentpro.ma"
+  },
+  {
+   "fieldname": "section_branding",
+   "fieldtype": "Section Break",
+   "label": "White Label",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "label": "Agency Logo"
+  },
+  {
+   "fieldname": "brand_color",
+   "fieldtype": "Color",
+   "label": "Brand Color"
+  },
+  {
+   "fieldname": "column_branding",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "footer_text",
+   "fieldtype": "Small Text",
+   "label": "Document Footer Text"
+  },
+  {
+   "fieldname": "custom_css",
+   "fieldtype": "Code",
+   "label": "Custom CSS",
+   "options": "CSS"
+  },
+  {
+   "fieldname": "section_usage",
+   "fieldtype": "Section Break",
+   "label": "Current Usage",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "vehicles_used",
+   "fieldtype": "Int",
+   "label": "Vehicles Used",
+   "read_only": 1
+  },
+  {
+   "fieldname": "users_used",
+   "fieldtype": "Int",
+   "label": "Users Used",
+   "read_only": 1
+  },
+  {
+   "fieldname": "storage_used_mb",
+   "fieldtype": "Float",
+   "label": "Storage Used (MB)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_usage",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ocr本月_used",
+   "fieldtype": "Int",
+   "label": "OCR Used (This Month)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_calls_used",
+   "fieldtype": "Int",
+   "label": "API Calls Used (This Month)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_subscription",
+   "fieldtype": "Section Break",
+   "label": "Subscription Details",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "trial_end_date",
+   "fieldtype": "Date",
+   "label": "Trial End Date"
+  },
+  {
+   "fieldname": "subscription_start",
+   "fieldtype": "Date",
+   "label": "Subscription Start"
+  },
+  {
+   "fieldname": "column_subscription",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "next_billing_date",
+   "fieldtype": "Date",
+   "label": "Next Billing Date"
+  },
+  {
+   "fieldname": "auto_renew",
+   "fieldtype": "Check",
+   "label": "Auto-Renew",
+   "default": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Rent Pro Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Trial Agencies",
+  "label": "Trial Agencies",
+  "type": "Count",
+  "document_type": "Agency",
+  "module": "Rent Pro",
+  "filters": [["Agency", "status", "=", "Trial"]],
+  "description": "Agencies currently on trial",
+  "owner": "Administrator"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Active Agencies",
+  "label": "Active Agencies",
+  "type": "Count",
+  "document_type": "Agency",
+  "module": "Rent Pro",
+  "filters": [["Agency", "status", "=", "Active"]],
+  "description": "Active agencies on the platform",
+  "owner": "Administrator"
+}

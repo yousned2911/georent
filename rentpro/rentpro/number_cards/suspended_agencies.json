@@ -1,0 +1,10 @@
+{
+  "name": "Suspended Agencies",
+  "label": "Suspended Agencies",
+  "type": "Count",
+  "document_type": "Agency",
+  "module": "Rent Pro",
+  "filters": [["Agency", "status", "=", "Suspended"]],
+  "description": "Agencies suspended due to non-payment",
+  "owner": "Administrator"
+}

@@ -1,0 +1,115 @@
+{
+ "name": "SaaS Settings",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "issingle": 1,
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_general",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "saas_enabled",
+   "fieldtype": "Check",
+   "label": "Enable SaaS Mode",
+   "default": 0,
+   "description": "Enable multi-tenant subscription management"
+  },
+  {
+   "fieldname": "default_trial_days",
+   "fieldtype": "Int",
+   "label": "Default Trial Days",
+   "default": 14
+  },
+  {
+   "fieldname": "column_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enforce_limits",
+   "fieldtype": "Check",
+   "label": "Enforce Plan Limits",
+   "default": 1,
+   "description": "Block creation when limits exceeded"
+  },
+  {
+   "fieldname": "grace_period_days",
+   "fieldtype": "Int",
+   "label": "Grace Period (Days)",
+   "default": 7,
+   "description": "Days after missed payment before suspension"
+  },
+  {
+   "fieldname": "section_billing",
+   "fieldtype": "Section Break",
+   "label": "Billing"
+  },
+  {
+   "fieldname": "billing_email",
+   "fieldtype": "Data",
+   "label": "Billing Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "payment_terms_days",
+   "fieldtype": "Int",
+   "label": "Payment Terms (Days)",
+   "default": 30
+  },
+  {
+   "fieldname": "column_billing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "auto_generate_invoices",
+   "fieldtype": "Check",
+   "label": "Auto-Generate Invoices",
+   "default": 1
+  },
+  {
+   "fieldname": "suspend_on_non_payment",
+   "fieldtype": "Check",
+   "label": "Auto-Suspend on Non-Payment",
+   "default": 1
+  },
+  {
+   "fieldname": "section_branding",
+   "fieldtype": "Section Break",
+   "label": "White Label Defaults"
+  },
+  {
+   "fieldname": "allow_white_label",
+   "fieldtype": "Check",
+   "label": "Allow White Label",
+   "default": 0,
+   "description": "Allow agencies to customize branding"
+  },
+  {
+   "fieldname": "default_brand_color",
+   "fieldtype": "Color",
+   "label": "Default Brand Color"
+  },
+  {
+   "fieldname": "platform_name",
+   "fieldtype": "Data",
+   "label": "Platform Name",
+   "default": "Rent Pro"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Active Subscriptions",
+  "label": "Active Subscriptions",
+  "type": "Count",
+  "document_type": "Agency Subscription",
+  "module": "Rent Pro",
+  "filters": [["Agency Subscription", "status", "=", "Active"]],
+  "description": "Number of active paid subscriptions",
+  "owner": "Administrator"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Total Agencies",
+  "label": "Total Agencies",
+  "type": "Count",
+  "document_type": "Agency",
+  "module": "Rent Pro",
+  "filters": [],
+  "description": "Total number of agencies on the platform",
+  "owner": "Administrator"
+}
