@@ -1,0 +1,13 @@
+{
+ "name": "Completed Today",
+ "label": "Contracts Completed Today",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Rental Contract",
+ "filters": [["Rental Contract", "status", "=", "Completed"], ["Rental Contract", "modified", ">", "Today"]],
+ "color": "purple",
+ "icon": "octicon octicon-checklist",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Rental Contract\",\"status\",\"=\",\"Completed\"],[\"Rental Contract\",\"modified\",\">\",\"Today\"]]",
+ "function": "Count"
+}

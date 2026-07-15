@@ -1,0 +1,14 @@
+{
+ "name": "Revenue This Month",
+ "label": "Revenue This Month",
+ "type": "Sum",
+ "doctype": "Number Card",
+ "document_type": "Rental Contract",
+ "filters": [["Rental Contract", "status", "in", ["Active", "Completed"]], ["Rental Contract", "modified", ">", "This Month"]],
+ "color": "yellow",
+ "icon": "octicon octicon-graph",
+ "module": "Rent Pro",
+ "field": "grand_total",
+ "filters_json": "[[\"Rental Contract\",\"status\",\"in\",[\"Active\",\"Completed\"]],[\"Rental Contract\",\"modified\",\">\",\"This Month\"]]",
+ "function": "Sum"
+}

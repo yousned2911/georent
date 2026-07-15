@@ -1,0 +1,13 @@
+{
+ "name": "Total Contracts",
+ "label": "Total Contracts",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Rental Contract",
+ "filters": [],
+ "color": "blue",
+ "icon": "octicon octicon-file-text",
+ "module": "Rent Pro",
+ "filters_json": "[]",
+ "function": "Count"
+}

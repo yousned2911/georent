@@ -1,0 +1,13 @@
+{
+ "name": "Active Contracts",
+ "label": "Active Contracts",
+ "type": "Count",
+ "doctype": "Number Card",
+ "document_type": "Rental Contract",
+ "filters": [["Rental Contract", "status", "=", "Active"]],
+ "color": "green",
+ "icon": "octicon octicon-check",
+ "module": "Rent Pro",
+ "filters_json": "[[\"Rental Contract\",\"status\",\"=\",\"Active\"]]",
+ "function": "Count"
+}

@@ -1,0 +1,384 @@
+{
+ "name": "Rental Contract",
+ "module": "Rent Pro",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "autoname": "CON-{#####}",
+ "title_field": "contract_number",
+ "subject_field": "customer",
+ "search_fields": "contract_number,customer,vehicle",
+ "istable": 0,
+ "editable_grid": 0,
+ "track_changes": 1,
+ "track_seen": 1,
+ "engine": "InnoDB",
+ "fields": [
+  {
+   "fieldname": "section_identification",
+   "fieldtype": "Section Break",
+   "label": "Contract Identification"
+  },
+  {
+   "fieldname": "contract_number",
+   "fieldtype": "Data",
+   "label": "Contract Number",
+   "reqd": 0,
+   "read_only": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "reservation",
+   "fieldtype": "Link",
+   "label": "Reservation",
+   "options": "Reservation",
+   "reqd": 0,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Vehicle",
+   "options": "Vehicle",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "agency",
+   "fieldtype": "Link",
+   "label": "Agency",
+   "options": "Agency",
+   "reqd": 0,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nActive\nCompleted\nCancelled",
+   "default": "Draft",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "label": "Payment Status",
+   "options": "Unpaid\nPartial\nPaid\nRefunded",
+   "default": "Unpaid",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active",
+   "default": 1,
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "label": "Created By",
+   "read_only": 1,
+   "default": "__user"
+  },
+  {
+   "fieldname": "section_dates",
+   "fieldtype": "Section Break",
+   "label": "Dates & Schedule"
+  },
+  {
+   "fieldname": "contract_date",
+   "fieldtype": "Date",
+   "label": "Contract Date",
+   "reqd": 1,
+   "default": "Today",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "pickup_datetime",
+   "fieldtype": "Datetime",
+   "label": "Pickup Date & Time",
+   "reqd": 0,
+   "bold": 1
+  },
+  {
+   "fieldname": "column_return",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expected_return_datetime",
+   "fieldtype": "Datetime",
+   "label": "Expected Return Date & Time",
+   "reqd": 0,
+   "bold": 1
+  },
+  {
+   "fieldname": "actual_return_datetime",
+   "fieldtype": "Datetime",
+   "label": "Actual Return Date & Time",
+   "reqd": 0
+  },
+  {
+   "fieldname": "section_pickup",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Condition - Pickup"
+  },
+  {
+   "fieldname": "pickup_mileage",
+   "fieldtype": "Int",
+   "label": "Pickup Mileage (km)",
+   "reqd": 0
+  },
+  {
+   "fieldname": "pickup_fuel_level",
+   "fieldtype": "Int",
+   "label": "Pickup Fuel Level (%)",
+   "reqd": 0,
+   "description": "0-100"
+  },
+  {
+   "fieldname": "pickup_notes",
+   "fieldtype": "Small Text",
+   "label": "Pickup Notes"
+  },
+  {
+   "fieldname": "column_return_condition",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_return",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Condition - Return",
+   "depends_on": "eval:doc.status=='Completed'"
+  },
+  {
+   "fieldname": "return_mileage",
+   "fieldtype": "Int",
+   "label": "Return Mileage (km)",
+   "reqd": 0
+  },
+  {
+   "fieldname": "return_fuel_level",
+   "fieldtype": "Int",
+   "label": "Return Fuel Level (%)",
+   "reqd": 0,
+   "description": "0-100"
+  },
+  {
+   "fieldname": "return_notes",
+   "fieldtype": "Small Text",
+   "label": "Return Notes"
+  },
+  {
+   "fieldname": "section_financial",
+   "fieldtype": "Section Break",
+   "label": "Financial Details"
+  },
+  {
+   "fieldname": "daily_rate",
+   "fieldtype": "Currency",
+   "label": "Daily Rate",
+   "options": "MAD",
+   "reqd": 0,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "number_of_days",
+   "fieldtype": "Int",
+   "label": "Number of Days",
+   "read_only": 1,
+   "default": "0"
+  },
+  {
+   "fieldname": "subtotal",
+   "fieldtype": "Currency",
+   "label": "Subtotal",
+   "options": "MAD",
+   "read_only": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "column_financial",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "discount",
+   "fieldtype": "Currency",
+   "label": "Discount",
+   "options": "MAD",
+   "default": "0"
+  },
+  {
+   "fieldname": "tva_rate",
+   "fieldtype": "Select",
+   "label": "TVA Rate",
+   "options": "20%\n14%\n10%\n7%\n0%",
+   "default": "20%",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tva_amount",
+   "fieldtype": "Currency",
+   "label": "TVA Amount",
+   "options": "MAD",
+   "read_only": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "section_charges",
+   "fieldtype": "Section Break",
+   "label": "Additional Charges",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "additional_charges",
+   "fieldtype": "Currency",
+   "label": "Additional Charges",
+   "options": "MAD",
+   "default": "0"
+  },
+  {
+   "fieldname": "late_return_fee",
+   "fieldtype": "Currency",
+   "label": "Late Return Fee",
+   "options": "MAD",
+   "default": "0"
+  },
+  {
+   "fieldname": "damage_fee",
+   "fieldtype": "Currency",
+   "label": "Damage Fee",
+   "options": "MAD",
+   "default": "0"
+  },
+  {
+   "fieldname": "column_charges",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "deposit_amount",
+   "fieldtype": "Currency",
+   "label": "Deposit Amount",
+   "options": "MAD",
+   "default": "0"
+  },
+  {
+   "fieldname": "section_totals",
+   "fieldtype": "Section Break",
+   "label": "Total"
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "label": "Grand Total",
+   "options": "MAD",
+   "read_only": 1,
+   "bold": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_signatures",
+   "fieldtype": "Section Break",
+   "label": "Signatures",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "customer_signature",
+   "fieldtype": "Attach",
+   "label": "Customer Signature"
+  },
+  {
+   "fieldname": "agency_signature",
+   "fieldtype": "Attach",
+   "label": "Agency Signature"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Attach",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "section_notes",
+   "fieldtype": "Section Break",
+   "label": "Additional Information",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Rent Pro Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Rent Pro Fleet Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "Reservation Agent",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 0,
+   "report": 0,
+   "export": 0
+  },
+  {
+   "role": "Rent Pro Finance",
+   "read": 1,
+   "write": 1,
+   "create": 0,
+   "delete": 0,
+   "report": 1,
+   "export": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC"
+}
