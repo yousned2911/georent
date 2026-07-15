@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Frappe
+*.pyc
+*.pyo
+node_modules/
+public/dist/
+public/*.min.js
+public/*.min.css
+sites/
+logs/
+*.log
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Build
+*.tar.gz
+*.whl
+
+# Temporary
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# Reports (generated)
+SPRINT*_REPORT.md
+FIX_REPORT.md
+MARKETPLACE_REVIEW.md

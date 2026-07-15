@@ -1,0 +1,6 @@
+__version__ = "0.1.0"
+__title__ = "Rent Pro"
+__author__ = "Rent Pro"
+__description__ = "Paperless ERP for Moroccan car rental agencies"
+__email__ = "dev@rentpro.ma"
+__license__ = "MIT"

@@ -1,0 +1,13 @@
+include MANIFEST.in
+include requirements.txt
+include *.md
+include license.txt
+include pyproject.toml
+recursive-include rentpro *.py
+recursive-include rentpro *.json
+recursive-include rentpro *.css
+recursive-include rentpro *.js
+recursive-include rentpro *.html
+recursive-include rentpro *.csv
+recursive-include rentpro *.txt
+recursive-include docs *.md

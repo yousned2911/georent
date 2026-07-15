@@ -1,0 +1,104 @@
+/* Rent Pro - Global Styles */
+
+/* RTL Support */
+[dir="rtl"] .rent-pro-container {
+  text-align: right;
+}
+
+/* Vehicle status badges */
+.vehicle-status-available {
+  color: var(--green-600);
+}
+
+.vehicle-status-rented {
+  color: var(--blue-600);
+}
+
+.vehicle-status-maintenance {
+  color: var(--orange-500);
+}
+
+.vehicle-status-retired {
+  color: var(--red-500);
+}
+
+/* Contract status */
+.contract-status-draft {
+  color: var(--gray-500);
+}
+
+.contract-status-active {
+  color: var(--green-600);
+}
+
+.contract-status-completed {
+  color: var(--blue-600);
+}
+
+.contract-status-cancelled {
+  color: var(--red-500);
+}
+
+/* Dashboard cards */
+.rent-pro-kpi-card {
+  padding: 15px;
+  border-radius: var(--border-radius-md);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  margin-bottom: 10px;
+}
+
+.rent-pro-kpi-card .number {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--heading-color);
+}
+
+.rent-pro-kpi-card .label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* OCR result confidence indicator */
+.ocr-confidence-high {
+  color: var(--green-600);
+}
+
+.ocr-confidence-medium {
+  color: var(--orange-500);
+}
+
+.ocr-confidence-low {
+  color: var(--red-500);
+}
+
+/* Geofleete map container */
+.geofleete-map-container {
+  width: 100%;
+  height: 500px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+}
+
+/* Print format helpers */
+.rent-pro-print-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.rent-pro-print-logo {
+  max-height: 60px;
+}
+
+.rent-pro-print-footer {
+  margin-top: 30px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+}

@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=62.3.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rentpro"
+version = "0.1.0"
+description = "Paperless ERP for Moroccan car rental agencies"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Rent Pro", email = "dev@rentpro.ma"}]
+requires-python = ">=3.10"
+dependencies = [
+    "frappe-framework>=15.0.0",
+    "erpnext>=15.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "coverage",
+    "flake8",
+    "black",
+    "isort",
+    "pre-commit",
+]
+
+[tool.black]
+line-length = 110
+target-version = ["py310"]
+
+[tool.isort]
+profile = "black"
+line_length = 110
+
+[tool.pytest.ini_options]
+testpaths = ["rentpro"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "-v --tb=short"

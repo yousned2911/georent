@@ -1,0 +1,182 @@
+{
+  "name": "Rent Pro Settings",
+  "module": "Rent Pro",
+  "doctype": "DocType",
+  "document_type": "Document",
+  "issingle": 1,
+  "istable": 0,
+  "editable_grid": 0,
+  "track_changes": 1,
+  "engine": "InnoDB",
+  "fields": [
+    {
+      "fieldname": "general_section",
+      "fieldtype": "Section Break",
+      "label": "General"
+    },
+    {
+      "fieldname": "agency_name",
+      "fieldtype": "Data",
+      "label": "Agency Name",
+      "reqd": 1,
+      "bold": 1
+    },
+    {
+      "fieldname": "column_break_general",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "default_currency",
+      "fieldtype": "Link",
+      "label": "Default Currency",
+      "options": "Currency",
+      "reqd": 1,
+      "default": "MAD"
+    },
+    {
+      "fieldname": "default_tva_rate",
+      "fieldtype": "Link",
+      "label": "Default TVA Rate",
+      "options": "TVA Rate"
+    },
+    {
+      "fieldname": "ocr_section",
+      "fieldtype": "Section Break",
+      "label": "OCR",
+      "depends_on": "eval:doc.ocr_enabled"
+    },
+    {
+      "fieldname": "ocr_enabled",
+      "fieldtype": "Check",
+      "label": "Enable OCR",
+      "default": 1
+    },
+    {
+      "fieldname": "ocr_confidence_threshold",
+      "fieldtype": "Percent",
+      "label": "OCR Confidence Threshold",
+      "description": "Below this threshold, documents require manual review",
+      "default": 80
+    },
+    {
+      "fieldname": "column_break_ocr",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "ocr_engine",
+      "fieldtype": "Select",
+      "label": "OCR Engine",
+      "options": "Tesseract\nGoogle Vision\nAWS Textract",
+      "default": "Tesseract"
+    },
+    {
+      "fieldname": "geofleete_section",
+      "fieldtype": "Section Break",
+      "label": "GeoFleete",
+      "depends_on": "eval:doc.geofleete_enabled"
+    },
+    {
+      "fieldname": "geofleete_enabled",
+      "fieldtype": "Check",
+      "label": "Enable GeoFleete",
+      "default": 0
+    },
+    {
+      "fieldname": "gps_retention_days",
+      "fieldtype": "Int",
+      "label": "GPS Data Retention (Days)",
+      "default": 90
+    },
+    {
+      "fieldname": "column_break_geofleete",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "gps_update_interval",
+      "fieldtype": "Int",
+      "label": "GPS Update Interval (Seconds)",
+      "default": 30
+    },
+    {
+      "fieldname": "reservation_section",
+      "fieldtype": "Section Break",
+      "label": "Reservations & Contracts"
+    },
+    {
+      "fieldname": "reservation_overlap_check",
+      "fieldtype": "Check",
+      "label": "Prevent Double Booking",
+      "default": 1
+    },
+    {
+      "fieldname": "auto_complete_contracts",
+      "fieldtype": "Check",
+      "label": "Auto-Complete Contracts",
+      "description": "Automatically mark contracts as completed on end date",
+      "default": 0
+    },
+    {
+      "fieldname": "column_break_reservation",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "late_fee_daily_rate",
+      "fieldtype": "Currency",
+      "label": "Late Fee Daily Rate (MAD)",
+      "options": "default_currency"
+    },
+    {
+      "fieldname": "contract_validity_days",
+      "fieldtype": "Int",
+      "label": "Contract Validity (Days)",
+      "description": "Number of days a draft contract remains valid",
+      "default": 7
+    },
+    {
+      "fieldname": "branding_section",
+      "fieldtype": "Section Break",
+      "label": "Branding"
+    },
+    {
+      "fieldname": "logo",
+      "fieldtype": "Attach Image",
+      "label": "Agency Logo"
+    },
+    {
+      "fieldname": "footer_text",
+      "fieldtype": "Small Text",
+      "label": "Document Footer Text"
+    },
+    {
+      "fieldname": "column_break_branding",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "primary_color",
+      "fieldtype": "Color",
+      "label": "Primary Color"
+    },
+    {
+      "fieldname": "contract_template",
+      "fieldtype": "Link",
+      "label": "Default Contract Print Format",
+      "options": "Print Format"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "Rent Pro Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1
+    },
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}
